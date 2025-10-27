@@ -1,0 +1,23 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  ## Oracle DB
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: system
+    password: qwer
+    hikari:
+      ## Hikaripool 연결 시 session time_zone 설정
+      connection-init-sql: ALTER SESSION SET TIME_ZONE = '+09:00'
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-oracle.sql
+      separator: /
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.my.shopping.domain
