@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# BootstrapTest Html
+/src/main/resources/static/test/
