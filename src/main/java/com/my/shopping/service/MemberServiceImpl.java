@@ -1,6 +1,7 @@
 package com.my.shopping.service;
 
 import com.my.shopping.domain.member.Member;
+import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public void insert(Member member) {
-        memberMapper.insert(member);
+    public void insert(MemberCreateDto memberCreateDto) {
+        memberMapper.insert(memberCreateDto);
     }
 
     @Override

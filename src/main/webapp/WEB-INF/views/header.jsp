@@ -27,7 +27,7 @@
         </ul>
         <ul class="navbar-nav ms-auto gap-3">
           <li class="nav-item">
-           <a class="btn btn-outline-primary" href="#">회원가입</a>
+           <a class="btn btn-outline-primary" href="/members/new">회원가입</a>
           </li>
           <li class="nav-item">
            <a class="btn btn-outline-primary" href="#">로그인</a>
