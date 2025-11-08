@@ -1,10 +1,12 @@
 package com.my.shopping.controller.member;
 
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,5 +17,29 @@ public class MemberController {
     @GetMapping("/members/new")
     public String getMemberCreatePage() {
         return "/members/memberCreatePage";
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "/members/loginPage";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "/";
+    }
+
+    @GetMapping("/members/{id}")
+    public String getMemberDetailsPage(@PathVariable(value = "id") Long id, Model model) {
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "/members/memberDetailsPage";
+    }
+
+    @GetMapping("/members/{id}/edit")
+    public String getMemberEditPage(@PathVariable(value = "id") Long id, Model model) {
+        Member member = memberService.findById(id);
+        model.addAttribute("member", member);
+        return "/members/memberEditPage";
     }
 }

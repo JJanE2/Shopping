@@ -20,6 +20,12 @@
             id = #{id}
     </select>
 
+    <select id="findByLoginId" resultType="Member">
+        SELECT * FROM MEMBER
+        WHERE
+            loginId = #{loginId}
+    </select>
+
     <update id="update">
         UPDATE member
         SET

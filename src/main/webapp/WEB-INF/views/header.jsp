@@ -26,12 +26,24 @@
           </li>
         </ul>
         <ul class="navbar-nav ms-auto gap-3">
-          <li class="nav-item">
-           <a class="btn btn-outline-primary" href="/members/new">회원가입</a>
-          </li>
-          <li class="nav-item">
-           <a class="btn btn-outline-primary" href="#">로그인</a>
-          </li>
+        <c:choose>
+            <c:when test="${not empty sessionScope.member}">
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="/members/${sessionScope.memberId}">마이페이지</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="/logout">로그아웃</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="nav-item">
+                    <a class="btn btn-outline-success" href="/members/new">회원가입</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="/login">로그인</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
         </ul>
     </div>
   </div>

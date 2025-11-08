@@ -28,7 +28,7 @@
 
             <div class="d-flex justify-content-center gap-3 mb-3">
                 <button type="submit" class="btn btn-primary">가입하기</button>
-                <button type="button" class="btn btn-secondary">돌아가기</button>
+                <button type="button" class="btn btn-secondary" onclick="history.back()">돌아가기</button>
             </div>
         </form>
     </main>

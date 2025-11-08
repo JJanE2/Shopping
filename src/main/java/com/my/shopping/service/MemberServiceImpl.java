@@ -2,6 +2,7 @@ package com.my.shopping.service;
 
 import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
+import com.my.shopping.domain.member.dto.MemberLoginDto;
 import com.my.shopping.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,15 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public int delete(Long id) {
         return memberMapper.delete(id);
+    }
+
+    @Override
+    public Member login(MemberLoginDto memberLoginDto) {
+        Member findMember = memberMapper.findByLoginId(memberLoginDto.getLoginId());
+
+        if (findMember != null && findMember.getPassword().equals(memberLoginDto.getPassword())) {
+            return findMember;
+        }
+        return null;
     }
 }
