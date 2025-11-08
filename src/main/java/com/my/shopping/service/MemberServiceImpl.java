@@ -3,6 +3,7 @@ package com.my.shopping.service;
 import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.domain.member.dto.MemberLoginDto;
+import com.my.shopping.domain.member.dto.MemberUpdateDto;
 import com.my.shopping.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public int update(String newNickname, String newPassword, Long id) {
-        return memberMapper.update(newNickname, newPassword, id);
+    public int update(MemberUpdateDto memberUpdateDto) {
+        return memberMapper.update(memberUpdateDto);
     }
 
     @Override

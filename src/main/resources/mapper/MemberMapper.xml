@@ -26,11 +26,11 @@
             loginId = #{loginId}
     </select>
 
-    <update id="update">
+    <update id="update" parameterType="memberUpdateDto">
         UPDATE member
         SET
-            nickname = #{newNickname},
-            password = #{newPassword}
+            nickname = #{nickname},
+            password = #{password}
         WHERE
             id = #{id}
     </update>
