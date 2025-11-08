@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -25,8 +27,9 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
-        return "/";
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
     @GetMapping("/members/{id}")
