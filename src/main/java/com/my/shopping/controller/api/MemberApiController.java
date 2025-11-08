@@ -8,10 +8,7 @@ import com.my.shopping.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,8 +44,15 @@ public class MemberApiController {
     }
 
     @PostMapping("/members/{id}")
-    public ResponseEntity<String> updateMember(@RequestBody MemberUpdateDto memberUpdateDto) {
+    public ResponseEntity<String> updateMember(@PathVariable(value = "id") Long id, @RequestBody MemberUpdateDto memberUpdateDto) {
         memberService.update(memberUpdateDto);
         return ResponseEntity.ok("성공적으로 정보수정 되었습니다.");
+    }
+
+    @DeleteMapping("/members/{id}")
+    public ResponseEntity<String> deleteMember(@PathVariable(value = "id") Long id, HttpSession session) {
+        session.invalidate();
+        memberService.delete(id);
+        return ResponseEntity.ok("탈퇴 되었습니다.");
     }
 }

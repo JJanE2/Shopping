@@ -21,8 +21,53 @@
                 <button type="button" class="btn btn-primary">수정하기</button>
             </a>
             <button type="button" class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                회원 탈퇴
+            </button>
         </div>
     </main>
 </section>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">회원 탈퇴</h5>
+      </div>
+      <div class="modal-body">
+        정말로 탈퇴하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">예</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.getElementById("confirmDeleteBtn").addEventListener("click", () => {
+
+        const id = ${member.id};
+
+        fetch(`/api/members/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);
+            window.location.href= "/";
+        })
+        .catch(err => {
+            console.error(err);
+            alert("서버 오류가 발생했습니다.");
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
