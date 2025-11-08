@@ -10,16 +10,16 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <section class="container d-flex align-items-center w-75 min-vh-100">
     <main class="container border rounded shadow py-3">
-        <form id="member-login-form" class="form-floating">
+        <form id="member-login-form">
             <h2 class="text-center mb-3">Shopping</h2>
             <p class="text-center text-muted">로그인 페이지</p>
-            <div class="mb-3">
-                <label for="loginId" class="form-label">아이디를 입력해주세요</label>
-                <input type="text" class="form-control" id="loginId" name="loginId" required>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="loginId" name="loginId" placeholder="" required>
+                <label for="loginId">아이디를 입력해주세요</label>
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">비밀번호를 입력해주세요</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" name="password"  placeholder="" required>
+                <label for="password">비밀번호를 입력해주세요</label>
             </div>
 
             <div class="d-flex justify-content-center gap-3 mb-3">
