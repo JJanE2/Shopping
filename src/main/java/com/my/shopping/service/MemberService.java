@@ -12,4 +12,6 @@ public interface MemberService {
     int delete(Long id);
 
     Member login(MemberLoginDto memberLoginDto);
+
+    Boolean isDuplicatedLoginId(String loginId);
 }

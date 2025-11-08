@@ -22,8 +22,14 @@ public class MemberApiController {
 
     @PostMapping("/members")
     public ResponseEntity<String> createMember(@RequestBody MemberCreateDto memberCreateDto) {
-        memberService.insert(memberCreateDto);
-        return ResponseEntity.ok("성공적으로 회원가입 되었습니다.");
+        Boolean isDuplicatedLoginId = memberService.isDuplicatedLoginId(memberCreateDto.getLoginId());
+
+        if (!isDuplicatedLoginId) {
+            memberService.insert(memberCreateDto);
+            return ResponseEntity.ok("성공적으로 회원가입 되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 아이디입니다.");
+        }
     }
 
     @PostMapping("/login")

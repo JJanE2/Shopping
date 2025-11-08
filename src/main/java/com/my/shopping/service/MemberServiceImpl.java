@@ -51,4 +51,10 @@ public class MemberServiceImpl implements MemberService{
         }
         return null;
     }
+
+    @Override
+    public Boolean isDuplicatedLoginId(String loginId) {
+        Member findMember = memberMapper.findByLoginId(loginId);
+        return findMember != null;
+    }
 }

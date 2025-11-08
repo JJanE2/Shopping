@@ -49,11 +49,15 @@
             body: JSON.stringify(memberCreateDto)
         });
 
+        // 서버가 보낸 메시지 읽기
+        const message = await response.text();
+
         if (response.ok) {
-            alert("회원가입이 완료되었습니다!");
+            alert(message);
             window.location.href = "/";
         } else {
-            alert("회원가입 실패");
+            alert(message);
+            window.location.reload();
         }
     });
 </script>
