@@ -41,4 +41,10 @@
         WHERE
             id = #{id}
     </delete>
+
+    <select id="findByMemberId" resultType="Product">
+        SELECT * FROM PRODUCT
+        WHERE
+            memberId = #{memberId}
+    </select>
 </mapper>

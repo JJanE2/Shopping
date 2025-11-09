@@ -6,6 +6,8 @@ import com.my.shopping.domain.product.dto.ProductUpdateDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface ProductMapper {
     void insert(ProductCreateDto productCreateDto);
@@ -13,4 +15,5 @@ public interface ProductMapper {
     Product findByName(@Param(value = "name") String name);
     int update(ProductUpdateDto productUpdateDto);
     int delete(Long id);
+    List<Product> findByMemberId(@Param("memberId") Long memberId);
 }
