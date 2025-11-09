@@ -10,8 +10,8 @@
             SELECT member_seq.NEXTVAL FROM dual
         </selectKey>
 
-        INSERT INTO member (id, loginId, nickname, password)
-        VALUES (#{id}, #{loginId}, #{nickname}, #{password})
+        INSERT INTO member (id, loginId, nickname, password, role)
+        VALUES (#{id}, #{loginId}, #{nickname}, #{password}, #{role})
     </insert>
 
     <select id="findById" resultType="Member">
@@ -40,5 +40,4 @@
         WHERE
             id = #{id}
     </delete>
-
 </mapper>

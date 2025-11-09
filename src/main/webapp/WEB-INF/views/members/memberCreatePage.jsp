@@ -26,6 +26,18 @@
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
 
+            <div class="mb-3">
+              <label class="form-label">회원 유형</label>
+              <div class="form-check form-check-inline ms-3">
+                <input class="form-check-input" type="radio" name="role" id="roleCustomer" value="CUSTOMER" checked>
+                <label class="form-check-label" for="roleCustomer">손님</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="roleOwner" value="OWNER">
+                <label class="form-check-label" for="roleOwner">사장</label>
+              </div>
+            </div>
+
             <div class="d-flex justify-content-center gap-3 mb-3">
                 <button type="submit" class="btn btn-primary">가입하기</button>
                 <button type="button" class="btn btn-secondary" onclick="history.back()">돌아가기</button>
@@ -40,7 +52,8 @@
         const memberCreateDto = {
             loginId: document.getElementById("loginId").value,
             nickname: document.getElementById("nickname").value,
-            password: document.getElementById("password").value
+            password: document.getElementById("password").value,
+            role: document.querySelector('input[name="role"]:checked').value
         };
 
         const response = await fetch("/api/members", {

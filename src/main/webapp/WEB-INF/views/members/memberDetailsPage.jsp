@@ -15,6 +15,12 @@
 
         <p class="text start"><strong>로그인 아이디 :</strong> ${member.loginId}</p>
         <p class="text start"><strong>닉네임 :</strong> ${member.nickname}</p>
+        <p class="text start"><strong>회원유형 : </strong>
+            <c:choose>
+                <c:when test="${member.role == 'CUSTOMER'}">손님</c:when>
+                <c:otherwise>사장님</c:otherwise>
+            </c:choose>
+        </p>
 
         <div class="d-flex justify-content-center gap-3 mb-3">
             <a href="/members/${member.id}/edit">
