@@ -1,0 +1,16 @@
+package com.my.shopping.mapper;
+
+import com.my.shopping.domain.product.Product;
+import com.my.shopping.domain.product.dto.ProductCreateDto;
+import com.my.shopping.domain.product.dto.ProductUpdateDto;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
+public interface ProductMapper {
+    void insert(ProductCreateDto productCreateDto);
+    Product findById(Long id);
+    Product findByName(@Param(value = "name") String name);
+    int update(ProductUpdateDto productUpdateDto);
+    int delete(Long id);
+}
