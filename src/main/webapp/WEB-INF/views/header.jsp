@@ -28,6 +28,13 @@
         <ul class="navbar-nav ms-auto gap-3">
         <c:choose>
             <c:when test="${not empty sessionScope.member}">
+                <!-- 회원 역할이 OWNER일 때만 상품추가 버튼 표시 -->
+                <c:if test="${sessionScope.member.role eq 'OWNER'}">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-success" href="/products/new">상품추가</a>
+                    </li>
+                </c:if>
+
                 <li class="nav-item">
                     <a class="btn btn-outline-primary" href="/members/${sessionScope.memberId}">마이페이지</a>
                 </li>

@@ -1,0 +1,16 @@
+package com.my.shopping.service;
+
+import com.my.shopping.domain.product.Product;
+import com.my.shopping.domain.product.dto.ProductCreateDto;
+import com.my.shopping.domain.product.dto.ProductUpdateDto;
+
+import java.util.List;
+
+public interface ProductService {
+    void insert(ProductCreateDto productCreateDto);
+    Product findById(Long id);
+    Product findByName(String name);
+    int update(ProductUpdateDto productUpdateDto);
+    int delete(Long id);
+    List<Product> findByMemberId(Long memberId);
+}
