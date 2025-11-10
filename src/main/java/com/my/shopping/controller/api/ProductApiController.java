@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -14,9 +17,12 @@ public class ProductApiController {
     private final ProductService productService;
 
     @PostMapping("/products")
-    public ResponseEntity<String> createProduct(@RequestBody ProductCreateDto productCreateDto) {
-        productService.insert(productCreateDto);
-        return ResponseEntity.ok("성공적으로 상품등록 되었습니다.");
+    public ResponseEntity<Map<String, Object>> createProduct(@RequestBody ProductCreateDto productCreateDto) {
+        Long productId = productService.insert(productCreateDto);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "성공적으로 상품등록 되었습니다.");
+        response.put("productId", productId);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/products/{id}")

@@ -62,14 +62,15 @@
             body: JSON.stringify(productCreateDto)
         })
         .then(response =>
-            response.text().then(message => ({ ok: response.ok, message: message }))
+            response.json().then(data => ({ ok: response.ok, data: data }))
         )
         .then(result => {
             if (result.ok) {
-                alert(result.message);
-                window.location.href = "/";
+                // JSON에서 메시지와 productId 가져오기
+                alert(result.data.message);
+                window.location.href = "/products/" + result.data.productId;
             } else {
-                alert(result.message);
+                alert(result.data.message);
                 window.location.reload();
             }
         })

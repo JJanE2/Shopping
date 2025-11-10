@@ -19,8 +19,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void insert(ProductCreateDto productCreateDto) {
+    public Long insert(ProductCreateDto productCreateDto) {
         productMapper.insert(productCreateDto);
+        return productCreateDto.getId();
     }
 
     @Override

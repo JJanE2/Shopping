@@ -7,7 +7,7 @@ import com.my.shopping.domain.product.dto.ProductUpdateDto;
 import java.util.List;
 
 public interface ProductService {
-    void insert(ProductCreateDto productCreateDto);
+    Long insert(ProductCreateDto productCreateDto);
     Product findById(Long id);
     Product findByName(String name);
     int update(ProductUpdateDto productUpdateDto);
