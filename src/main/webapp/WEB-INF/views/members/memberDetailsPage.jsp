@@ -28,8 +28,8 @@
             </a>
             <c:choose>
                 <c:when test="${member.role == 'OWNER'}">
-                    <a href="/products/1/edit">
-                        <button type="button" class="btn btn-success">상품 수정</button>
+                    <a href="/members/${member.id}/products">
+                        <button type="button" class="btn btn-success">상품 관리</button>
                     </a>
                 </c:when>
             </c:choose>

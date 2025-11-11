@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class ProductController {
@@ -32,5 +34,12 @@ public class ProductController {
         Product product = productService.findById(id);
         model.addAttribute("product", product);
         return "/products/productEditPage";
+    }
+
+    @GetMapping("/members/{memberId}/products")
+    public String getMyProductsPage(@PathVariable(value ="memberId") Long memberId, Model model) {
+        List<Product> products = productService.findByMemberId(memberId);
+        model.addAttribute("products", products);
+        return "/products/myProducts";
     }
 }
