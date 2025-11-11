@@ -26,6 +26,13 @@
             <a href="/members/${member.id}/edit">
                 <button type="button" class="btn btn-primary">수정하기</button>
             </a>
+            <c:choose>
+                <c:when test="${member.role == 'OWNER'}">
+                    <a href="/products/1/edit">
+                        <button type="button" class="btn btn-success">상품 수정</button>
+                    </a>
+                </c:when>
+            </c:choose>
             <button type="button" class="btn btn-secondary" onclick="history.back()">돌아가기</button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 회원 탈퇴
