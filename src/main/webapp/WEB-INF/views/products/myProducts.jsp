@@ -12,34 +12,46 @@
 <section class="container d-flex align-items-center w-75 min-vh-100">
     <main class="container">
         <div class="list-group">
-            <c:forEach var="product" items="${products}">
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <a href="/products/${product.id}">
-                            ${product.name}
-                        </a>
-                        <small class="text-muted">
-                            <fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd"/>
-                        </small>
-                    </div>
-                    <div>
-                        <a href="/products/${product.id}/edit" class="btn btn-sm btn-primary me-1">수정</a>
-
-                        <button
-                            type="button"
-                            class="btn btn-sm btn-danger"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal"
-                            data-product-id="${product.id}"
-                            data-product-name="${product.name}">
-                            삭제
-                        </button>
-                    </div>
-                </div>
-            </c:forEach>
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="w-25">상품명</th>
+                        <th scope="col" class="w-25">재고</th>
+                        <th scope="col" class="w-25">등록일</th>
+                        <th scope="col" class="w-25">관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="product" items="${products}">
+                        <tr>
+                            <td>
+                                <a href="/products/${product.id}" class="text-decoration-none">${product.name}</a>
+                            </td>
+                            <td>
+                                <span>${product.stockQuantity}개</span>
+                            </td>
+                            <td>
+                                <small class="text-muted">
+                                    <fmt:formatDate value="${product.createdAt}" pattern="yyyy-MM-dd"/>
+                                </small>
+                            </td>
+                            <td>
+                                <a href="/products/${product.id}/edit" class="btn btn-sm btn-primary me-1">수정</a>
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-product-id="${product.id}"
+                                    data-product-name="${product.name}">
+                                    삭제
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
-
-
     </main>
 </section>
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
