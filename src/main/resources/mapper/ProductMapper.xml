@@ -31,7 +31,8 @@
         SET
             name = #{name},
             price = #{price},
-            description = #{description}
+            description = #{description},
+            stockQuantity = ${stockQuantity}
         WHERE
             id = #{id}
     </update>
