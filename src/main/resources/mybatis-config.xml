@@ -8,5 +8,7 @@
         <package name="com.my.shopping.domain.member.dto"/>
         <!-- ProductDto -->
         <package name="com.my.shopping.domain.product.dto"/>
+        <!-- OrderDto -->
+        <package name="com.my.shopping.domain.order.dto"/>
     </typeAliases>
 </configuration>

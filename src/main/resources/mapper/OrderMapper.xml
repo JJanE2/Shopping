@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.shopping.mapper.OrderMapper">
+
+    <insert id="insert" parameterType="orderCreateDto">
+
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT order_seq.NEXTVAL FROM dual
+        </selectKey>
+
+        INSERT INTO orders (id, memberId, totalPrice)
+        VALUES (#{id}, #{memberId}, #{totalPrice})
+    </insert>
+
+    <select id="findById" resultType="Order">
+        SELECT * FROM ORDERS
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="findByMemberId" resultType="Order">
+        SELECT * FROM ORDERS
+        WHERE
+            memberId = #{memberId}
+    </select>
+
+    <update id="update" parameterType="orderUpdateDto">
+        UPDATE orders
+        SET
+            totalPrice = #{totalPrice},
+            status = #{status}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM ORDERS
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>
