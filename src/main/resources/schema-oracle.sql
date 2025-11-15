@@ -83,7 +83,7 @@ CREATE TABLE orders (
     id NUMBER(19) PRIMARY KEY,
     memberId NUMBER(19),
     orderDate TIMESTAMP DEFAULT SYSTIMESTAMP,
-    status VARCHAR2(10 CHAR) DEFAULT 'PENDING',
+    status VARCHAR2(10 CHAR) DEFAULT 'PAID',
     totalPrice NUMBER(10),
     CONSTRAINT fk_orders_member FOREIGN KEY (memberId) REFERENCES member(id) ON DELETE CASCADE
 )
