@@ -7,7 +7,7 @@
     <insert id="insert" parameterType="orderCreateDto">
 
         <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
-            SELECT order_seq.NEXTVAL FROM dual
+            SELECT orders_seq.NEXTVAL FROM dual
         </selectKey>
 
         INSERT INTO orders (id, memberId, totalPrice)

@@ -30,6 +30,8 @@
                   <input type="number" class="form-control text-center w-25" id="quantityInput" value="1" min="1" max="50">
                 </div>
                 <hr>
+                <form action="/orders/new" method="post">
+
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="text-start"><span class="">총 상품 금액</span></div>
                     <div class="d-flex align-items-center">
@@ -37,7 +39,10 @@
                         <span class="fs-4 text-danger fw-bold"><span id="totalPrice">${product.price}</span>원</span>
                     </div>
                 </div>
-                <button class="btn btn-primary w-100" type="button">주문하기</button>
+                <input type="hidden" name="totalPrice" id="totalPriceInput" value="${product.price}">
+                <button id="order-confirm-btn" class="btn btn-primary w-100" type="submit">주문하기</button>
+
+                </form>
             </div>
         </div>
     </section>
@@ -99,6 +104,7 @@
     const maxQuantity = parseInt(quantityInput.max);                // max 속성 가져오기
     const totalCount = document.getElementById("totalCount");       // 총 주문 개수 span
     const totalPrice = document.getElementById("totalPrice");       // 총 주문 금액
+    const totalPriceInput = document.getElementById('totalPriceInput');
 
     quantityInput.addEventListener("input", () => {
       let quantity = parseInt(quantityInput.value);
@@ -106,7 +112,12 @@
       if (quantity > maxQuantity) quantity = maxQuantity;
       quantityInput.value = quantity;
       totalCount.textContent = quantity;
-      totalPrice.textContent = (productPrice * quantity).toLocaleString("ko-KR");
+
+      const price = productPrice * quantity;
+      totalPrice.textContent = price.toLocaleString("ko-KR");
+
+      // form hidden input에 숫자로 값 넣기
+      totalPriceInput.value = price;
     });
 
 </script>
