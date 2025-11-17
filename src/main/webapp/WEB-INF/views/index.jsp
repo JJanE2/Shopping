@@ -1,24 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
     <title>Shopping</title>
-<body>
+<body class="pt-5">
     <%@ include file="/WEB-INF/views/header.jsp" %>
-    <section class="container d-flex align-items-center w-75 min-vh-100">
-        <main class="container border rounded shadow py-4">
-            <h2 class="my-4 text-center">Shopping</h2>
-            <p class="text-center text-muted">상품을 검색해보세요</p>
-            <form action="/" method="get" class="mx-auto mb-3 px-5 d-flex justify-content-center">
-                <input type="text" name="keyword" class="form-control me-2"
-                       placeholder="검색어 입력" value="">
-                <!-- 제출 버튼 -->
-                <button type="submit" class="btn btn-outline-primary w-25">검색</button>
-            </form>
-        </main>
-    </section>
+    <main class="container w-75 min-vh-100 pt-5">
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+          <c:forEach var="product" items="${products}">
+              <div class="col">
+                <a href="/products/${product.id}" class="text-decoration-none text-dark">
+                  <div class="card text-center">
+                      <img src="/resources/images/default-image.jpg"class="card-img-top"alt="${product.name}">
+                      <div class="card-body">
+                          <h5 class="card-title">${product.name}</h5>
+                          <span class="card-text fs-6">
+                              <fmt:formatNumber value="${product.price}" type="number"/>원
+                          </span>
+                      </div>
+                  </div>
+                </a>
+              </div>
+          </c:forEach>
+        </div>
+    </main>
 </body>
 </html>
