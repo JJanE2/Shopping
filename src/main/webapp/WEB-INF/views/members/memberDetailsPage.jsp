@@ -26,6 +26,9 @@
             <a href="/members/${member.id}/edit">
                 <button type="button" class="btn btn-primary">수정하기</button>
             </a>
+            <a href="/members/${member.id}/orders">
+                <button type="button" class="btn btn-warning">주문내역</button>
+            </a>
             <c:choose>
                 <c:when test="${member.role == 'OWNER'}">
                     <a href="/members/${member.id}/products">

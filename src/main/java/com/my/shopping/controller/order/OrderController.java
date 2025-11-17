@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class OrderController {
@@ -33,5 +35,12 @@ public class OrderController {
         Order order = orderService.findById(id);
         model.addAttribute("order", order);
         return "/orders/orderEditPage";
+    }
+
+    @GetMapping("/members/{memberId}/orders")
+    public String getMyOrdersPage(@PathVariable(value ="memberId") Long memberId, Model model) {
+        List<Order> orders = orderService.findByMemberId(memberId);
+        model.addAttribute("orders", orders);
+        return "/orders/myOrders";
     }
 }

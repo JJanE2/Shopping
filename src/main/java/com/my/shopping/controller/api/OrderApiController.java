@@ -17,7 +17,11 @@ public class OrderApiController {
 
     @PostMapping("/orders")
     public ResponseEntity<String> createOrder(@RequestBody OrderCreateDto orderCreateDto) {
-        Long orderId = orderService.insert(orderCreateDto);
-        return ResponseEntity.ok("성공적으로 주문 되었습니다.");
+        try {
+            Long orderId = orderService.insert(orderCreateDto);
+            return ResponseEntity.ok("성공적으로 주문 되었습니다.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
