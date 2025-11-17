@@ -57,4 +57,10 @@
             id = #{productId}
             AND stockQuantity >= #{quantity}
     </update>
+
+    <select id="findAll" resultType="Product">
+        SELECT * FROM PRODUCT
+        ORDER BY
+            createdAt DESC
+    </select>
 </mapper>

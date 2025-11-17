@@ -18,4 +18,6 @@ public interface ProductMapper {
     List<Product> findByMemberId(@Param("memberId") Long memberId);
 
     int decreaseStock (@Param("productId") Long productId, @Param("quantity") Integer quantity);
+
+    List<Product> findAll();
 }

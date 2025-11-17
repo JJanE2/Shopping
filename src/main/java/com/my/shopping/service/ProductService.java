@@ -13,4 +13,5 @@ public interface ProductService {
     int update(ProductUpdateDto productUpdateDto);
     int delete(Long id);
     List<Product> findByMemberId(Long memberId);
+    List<Product> findAll();
 }

@@ -49,4 +49,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findByMemberId(Long memberId) {
         return productMapper.findByMemberId(memberId);
     }
+
+    @Override
+    public List<Product> findAll() {
+        return productMapper.findAll();
+    }
 }
