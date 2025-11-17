@@ -25,6 +25,8 @@
             </div>
             <input type="hidden" name="totalPrice" id="totalPrice" value="${orderRequestDto.totalPrice}">
             <input type="hidden" name="memberId" id="memberId" value="${memberId}">
+            <input type="hidden" name="productId" id="productId" value="${orderRequestDto.productId}">
+            <input type="hidden" name="quantity" id="quantity" value="${orderRequestDto.quantity}">
         </form>
     </main>
 </section>
@@ -45,7 +47,9 @@
         event.preventDefault();
         const orderCreateDto = {
             totalPrice: Number(document.getElementById("totalPrice").value),
-            memberId: Number(document.getElementById("memberId").value)
+            memberId: Number(document.getElementById("memberId").value),
+            productId: Number(document.getElementById("productId").value),
+            quantity: Number(document.getElementById("quantity").value)
         };
 
         const response = await fetch("/api/orders", {

@@ -32,7 +32,7 @@
             name = #{name},
             price = #{price},
             description = #{description},
-            stockQuantity = ${stockQuantity}
+            stockQuantity = #{stockQuantity}
         WHERE
             id = #{id}
     </update>
@@ -48,4 +48,13 @@
         WHERE
             memberId = #{memberId}
     </select>
+
+    <update id="decreaseStock">
+        UPDATE product
+        SET
+            stockQuantity = stockQuantity - #{quantity}
+        WHERE
+            id = #{productId}
+            AND stockQuantity >= #{quantity}
+    </update>
 </mapper>

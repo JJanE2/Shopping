@@ -40,6 +40,8 @@
                     </div>
                 </div>
                 <input type="hidden" name="totalPrice" id="totalPriceInput" value="${product.price}">
+                <input type="hidden" name="productId" id="productId" value="${product.id}">
+                <input type="hidden" name="quantity" id="quantity" value="1">
                 <button id="order-confirm-btn" class="btn btn-primary w-100" type="submit">주문하기</button>
 
                 </form>
@@ -105,6 +107,8 @@
     const totalCount = document.getElementById("totalCount");       // 총 주문 개수 span
     const totalPrice = document.getElementById("totalPrice");       // 총 주문 금액
     const totalPriceInput = document.getElementById('totalPriceInput');
+    const quantityHidden = document.getElementById('quantity');
+
 
     quantityInput.addEventListener("input", () => {
       let quantity = parseInt(quantityInput.value);
@@ -118,6 +122,8 @@
 
       // form hidden input에 숫자로 값 넣기
       totalPriceInput.value = price;
+      quantityHidden.value = quantity;
+
     });
 
 </script>

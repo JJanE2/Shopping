@@ -16,4 +16,6 @@ public interface ProductMapper {
     int update(ProductUpdateDto productUpdateDto);
     int delete(Long id);
     List<Product> findByMemberId(@Param("memberId") Long memberId);
+
+    int decreaseStock (@Param("productId") Long productId, @Param("quantity") Integer quantity);
 }

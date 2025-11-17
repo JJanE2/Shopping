@@ -4,6 +4,7 @@ import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
 import com.my.shopping.mapper.OrderMapper;
+import com.my.shopping.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +17,15 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
+    private final ProductMapper productMapper;
 
     @Override
     @Transactional
     public Long insert(OrderCreateDto orderCreateDto) {
+        int updatedRows = productMapper.decreaseStock(orderCreateDto.getProductId(), orderCreateDto.getQuantity());
+        if (updatedRows == 0) {
+            throw new IllegalStateException("재고가 부족하여 주문 실패하였습니다.");
+        }
         orderMapper.insert(orderCreateDto);
         return orderCreateDto.getId();
     }
