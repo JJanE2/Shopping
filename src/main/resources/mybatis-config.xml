@@ -10,5 +10,7 @@
         <package name="com.my.shopping.domain.product.dto"/>
         <!-- OrderDto -->
         <package name="com.my.shopping.domain.order.dto"/>
+        <!-- OrderProductDto -->
+        <package name="com.my.shopping.domain.orderProduct.dto"/>
     </typeAliases>
 </configuration>

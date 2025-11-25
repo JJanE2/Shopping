@@ -88,3 +88,35 @@ CREATE TABLE orders (
     CONSTRAINT fk_orders_member FOREIGN KEY (memberId) REFERENCES member(id) ON DELETE CASCADE
 )
 /
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE orderProduct_seq';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -2289 THEN RAISE; END IF;
+END;
+/
+
+CREATE SEQUENCE orderProduct_seq START WITH 1 INCREMENT BY 1
+/
+
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE orderProduct CASCADE CONSTRAINTS';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN RAISE;
+    END IF;
+END;
+/
+
+CREATE TABLE orderProduct (
+    id NUMBER(19) PRIMARY KEY,
+    orderId NUMBER(19),
+    productId NUMBER(19),
+    productName VARCHAR2(100 CHAR),
+    price NUMBER(10),
+    quantity NUMBER(10),
+    CONSTRAINT fk_orderProduct_orders FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE,
+    CONSTRAINT fk_orderProduct_product FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE
+)
+/
