@@ -1,7 +1,9 @@
 package com.my.shopping.controller.order;
 
 import com.my.shopping.domain.order.Order;
+import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderRequestDto;
+import com.my.shopping.service.OrderProductService;
 import com.my.shopping.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,11 +18,17 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/orders/new")
-    public String getOrderCreatePage(@ModelAttribute OrderRequestDto orderRequestDto,
+    public String getOrderCreatePage(@ModelAttribute OrderCreateDto orderCreateDto,
                                      @SessionAttribute("memberId") Long memberId, Model model) {
-        model.addAttribute("orderRequestDto", orderRequestDto);
+        model.addAttribute("orderCreateDto", orderCreateDto);
         model.addAttribute("memberId", memberId);
         return "/orders/orderCreatePage";
+    }
+
+    @PostMapping("/orders")
+    public String confirmOrder(@ModelAttribute OrderCreateDto orderCreateDto) {
+        orderService.insert(orderCreateDto);
+        return "redirect:/";
     }
 
     @GetMapping("/orders/{id}")

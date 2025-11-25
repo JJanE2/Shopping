@@ -40,8 +40,10 @@
                     </div>
                 </div>
                 <input type="hidden" name="totalPrice" id="totalPriceInput" value="${product.price}">
-                <input type="hidden" name="productId" id="productId" value="${product.id}">
-                <input type="hidden" name="quantity" id="quantity" value="1">
+                <input type="hidden" name="products[0].productId" value="${product.id}">
+                <input type="hidden" name="products[0].productName" value="${product.name}">
+                <input type="hidden" name="products[0].price" value="${product.price}">
+                <input type="hidden" name="products[0].quantity" id="quantity" value="1">
                 <button id="order-confirm-btn" class="btn btn-primary w-100" type="submit">주문하기</button>
 
                 </form>

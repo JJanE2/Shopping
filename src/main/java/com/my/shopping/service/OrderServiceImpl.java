@@ -3,7 +3,10 @@ package com.my.shopping.service;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
+import com.my.shopping.domain.orderProduct.OrderProduct;
+import com.my.shopping.domain.orderProduct.dto.OrderProductCreateDto;
 import com.my.shopping.mapper.OrderMapper;
+import com.my.shopping.mapper.OrderProductMapper;
 import com.my.shopping.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,16 +21,23 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
     private final ProductMapper productMapper;
+    private final OrderProductMapper orderProductMapper;
 
     @Override
     @Transactional
     public Long insert(OrderCreateDto orderCreateDto) {
-        int updatedRows = productMapper.decreaseStock(orderCreateDto.getProductId(), orderCreateDto.getQuantity());
-        if (updatedRows == 0) {
-            throw new IllegalStateException("재고가 부족하여 주문 실패하였습니다.");
-        }
         orderMapper.insert(orderCreateDto);
-        return orderCreateDto.getId();
+        Long orderId = orderCreateDto.getId();
+        List<OrderProductCreateDto> productDtos = orderCreateDto.getProducts();
+        insertOrderProducts(orderId, productDtos);
+        return orderId;
+    }
+
+    private void insertOrderProducts(Long orderId, List<OrderProductCreateDto> productDtos) {
+        for (OrderProductCreateDto productDto : productDtos) {
+            productDto.setOrderId(orderId);
+            orderProductMapper.insert(productDto);
+        }
     }
 
     @Override
