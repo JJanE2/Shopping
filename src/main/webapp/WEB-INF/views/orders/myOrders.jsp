@@ -51,7 +51,7 @@
                                     type="button"
                                     class="btn btn-sm btn-outline-danger"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
+                                    data-bs-target="#cancelModal"
                                     data-order-id="${order.id}">
                                     취소
                                 </button>
@@ -63,15 +63,15 @@
         </div>
     </main>
 </section>
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">주문 취소</h5>
+        <h5 class="modal-title" id="cancelModalLabel">주문 취소</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p id="deleteMessage">정말 취소하시겠습니까?</p>
+        <p id="cancelMessage">정말 취소하시겠습니까?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -82,25 +82,25 @@
 </div>
 
 <script>
-let deleteOrderId = null; // 모달에서 취소할 주문 ID 저장
+let cancelOrderId = null; // 모달에서 취소할 주문 ID 저장
 
 // 모달 열릴 때
-    const deleteModal = document.getElementById('deleteModal');
-    deleteModal.addEventListener('show.bs.modal', event => {
+    const cancelModal = document.getElementById('cancelModal');
+    cancelModal.addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget; // 클릭한 취소 버튼
-        deleteOrderId = button.getAttribute('data-order-id');
+        cancelOrderId = button.getAttribute('data-order-id');
 
         // 모달 메시지 업데이트
-        const message = deleteModal.querySelector('#deleteMessage');
+        const message = cancelModal.querySelector('#cancelMessage');
         message.innerText = "주문을 정말 취소하시겠습니까?";
     });
 
     // 확인 버튼 클릭 시 fetch DELETE
     document.getElementById("confirmDeleteBtn").addEventListener("click", () => {
-        if (!deleteOrderId) return;
+        if (!cancelOrderId) return;
 
-        fetch(`/api/orders/` + deleteOrderId, {
-            method: "DELETE",
+        fetch(`/api/orders/` + cancelOrderId + `/cancel`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             }

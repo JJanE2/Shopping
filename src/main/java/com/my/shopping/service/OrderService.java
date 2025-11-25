@@ -12,4 +12,6 @@ public interface OrderService {
     List<Order> findByMemberId(Long memberId);
     int update(OrderUpdateDto orderUpdateDto);
     int delete(Long id);
+
+    void cancel(Long id);
 }

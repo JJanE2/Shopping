@@ -50,4 +50,15 @@ public class OrderServiceImpl implements OrderService {
     public int delete(Long id) {
         return orderMapper.delete(id);
     }
+
+    @Override
+    @Transactional
+    public void cancel(Long id) {
+        Order order = orderMapper.findById(id);
+        String status = order.getStatus();
+        if (status.equals("PAID")) {
+            orderMapper.updateStatus(id, "CANCELED");
+        }
+        throw new IllegalStateException("현재 상태에서 주문을 취소할 수 없습니다.");
+    }
 }
