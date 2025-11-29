@@ -26,9 +26,15 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public String confirmOrder(@ModelAttribute OrderCreateDto orderCreateDto) {
-        orderService.insert(orderCreateDto);
-        return "redirect:/";
+    public String confirmOrder(@ModelAttribute OrderCreateDto orderCreateDto,
+                               Model model) {
+        try {
+            orderService.insert(orderCreateDto);
+            return "redirect:/";  // 성공 시 메인으로 이동
+        } catch (IllegalStateException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "/orders/orderCreatePage"; // 다시 주문 확인 페이지로
+        }
     }
 
     @GetMapping("/orders/{id}")

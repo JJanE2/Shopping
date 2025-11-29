@@ -35,6 +35,12 @@ public class OrderServiceImpl implements OrderService {
 
     private void insertOrderProducts(Long orderId, List<OrderProductCreateDto> productDtos) {
         for (OrderProductCreateDto productDto : productDtos) {
+            // 개별 상품에 대한 재고확인 및 소진
+            int isQuantityUpdated = productMapper.decreaseStock(productDto.getProductId(), productDto.getQuantity());
+            if (isQuantityUpdated == 0) {
+                throw new IllegalStateException("재고 부족 또는 동시 주문으로 인해 주문실패");
+            }
+
             productDto.setOrderId(orderId);
             orderProductMapper.insert(productDto);
         }

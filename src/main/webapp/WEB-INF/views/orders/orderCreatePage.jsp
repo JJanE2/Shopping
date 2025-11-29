@@ -35,6 +35,13 @@
     </main>
 </section>
 
+// 재고 부족시 오류 메세지 표시
+<c:if test="${not empty errorMessage}">
+    <script>
+        alert("${errorMessage}");
+    </script>
+</c:if>
+
 <script>
     // 총 금액 표시
     document.addEventListener("DOMContentLoaded", () => {
