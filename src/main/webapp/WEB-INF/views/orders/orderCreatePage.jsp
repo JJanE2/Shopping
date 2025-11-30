@@ -13,7 +13,29 @@
         <form id="order-create-form" action="/orders" method="post">
             <h2 class="text-center mb-3">Shopping</h2>
             <p class="text-center text-muted">주문확인 페이지</p>
-            <hr>
+            <!-- 상품 테이블 -->
+            <table class="table table-bordered text-center mb-4">
+                <thead class="table-light">
+                    <tr>
+                        <th>상품명</th>
+                        <th>금액</th>
+                        <th>수량</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="item" items="${orderCreateDto.products}" varStatus="status">
+                        <tr>
+                            <td>${item.productName}</td>
+                            <td>${item.price}원</td>
+                            <td>${item.quantity}개</td>
+                        </tr>
+                        <input type="hidden" name="products[${status.index}].productId" value="${item.productId}">
+                        <input type="hidden" name="products[${status.index}].productName" value="${item.productName}">
+                        <input type="hidden" name="products[${status.index}].price" value="${item.price}">
+                        <input type="hidden" name="products[${status.index}].quantity" value="${item.quantity}">
+                    </c:forEach>
+                </tbody>
+            </table>
 
             <p class="fs-4 text-primary fw-bold">
                 <span id="totalPriceText">${orderCreateDto.totalPrice}</span>
@@ -25,12 +47,6 @@
             </div>
             <input type="hidden" name="totalPrice" id="totalPrice" value="${orderCreateDto.totalPrice}">
             <input type="hidden" name="memberId" id="memberId" value="${memberId}">
-            <c:forEach var="item" items="${orderCreateDto.products}" varStatus="status">
-                <input type="hidden" name="products[${status.index}].productId" value="${item.productId}">
-                <input type="hidden" name="products[${status.index}].productName" value="${item.productName}">
-                <input type="hidden" name="products[${status.index}].price" value="${item.price}">
-                <input type="hidden" name="products[${status.index}].quantity" value="${item.quantity}">
-            </c:forEach>
         </form>
     </main>
 </section>
