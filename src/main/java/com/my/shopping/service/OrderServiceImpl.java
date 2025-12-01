@@ -74,6 +74,9 @@ public class OrderServiceImpl implements OrderService {
         String status = order.getStatus();
         if (status.equals("PAID")) {
             orderMapper.updateStatus(id, "CANCELED");
+            return;
+        } else if (status.equals("CANCELED")) {
+            throw new IllegalStateException("이미 주문이 취소되었습니다.");
         }
         throw new IllegalStateException("현재 상태에서 주문을 취소할 수 없습니다.");
     }
