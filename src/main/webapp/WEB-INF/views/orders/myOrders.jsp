@@ -74,7 +74,7 @@
         <p id="cancelMessage">정말 취소하시겠습니까?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
         <button type="button" id="confirmDeleteBtn" class="btn btn-danger">취소</button>
       </div>
     </div>
@@ -106,16 +106,20 @@ let cancelOrderId = null; // 모달에서 취소할 주문 ID 저장
             }
         })
         .then(response => {
-            if(!response.ok) throw new Error("취소 실패");
-            return response.text();
+            return response.text().then(message => {
+                if (!response.ok) {
+                    throw new Error(message);   // 서버가 보낸 메시지
+                }
+                return message;                 // 성공 메시지
+            });
         })
         .then(message => {
             alert(message);
-            window.location.reload(); // 취소 후 페이지 새로고침
+            window.location.reload();
         })
         .catch(err => {
             console.error(err);
-            alert("서버 오류가 발생했습니다.");
+            alert(err.message);                 // 에러 메시지 표시
         });
     });
 </script>
