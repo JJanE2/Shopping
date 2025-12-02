@@ -58,6 +58,14 @@
             AND stockQuantity >= #{quantity}
     </update>
 
+    <update id="increaseStock">
+        UPDATE product
+        SET
+            stockQuantity = stockQuantity + #{quantity}
+        WHERE
+            id = #{productId}
+    </update>
+
     <select id="findAll" resultType="Product">
         SELECT * FROM PRODUCT
         ORDER BY
