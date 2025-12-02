@@ -26,7 +26,7 @@
                     <c:forEach var="order" items="${orders}">
                         <tr>
                             <td>
-                                <span>${order.id}</span>
+                                <a href="/orders/${order.id}"><span>${order.id}</span></a>
                             </td>
                             <td>
                                 <fmt:formatDate value="${order.orderDate}" pattern="yyyy년 M월 d일"/>

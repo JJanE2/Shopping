@@ -3,6 +3,7 @@ package com.my.shopping.controller.order;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderRequestDto;
+import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.service.OrderProductService;
 import com.my.shopping.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final OrderProductService orderProductService;
 
     @PostMapping("/orders/new")
     public String getOrderCreatePage(@ModelAttribute OrderCreateDto orderCreateDto,
@@ -40,7 +42,9 @@ public class OrderController {
     @GetMapping("/orders/{id}")
     public String getOrderDetailsPage(@PathVariable(value = "id") Long id, Model model) {
         Order order = orderService.findById(id);
+        List<OrderProduct> products = orderProductService.findByOrderId(id);
         model.addAttribute("order", order);
+        model.addAttribute("products", products);
         return "/orders/orderDetailsPage";
     }
 

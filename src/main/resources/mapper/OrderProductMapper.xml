@@ -14,13 +14,13 @@
         VALUES (#{id}, #{orderId}, #{productId}, #{productName}, #{price}, #{quantity})
     </insert>
 
-    <select id="findById" resultType="OrderProductCreateDto">
+    <select id="findById" resultType="OrderProduct">
         SELECT * FROM orderProduct
         WHERE
         id = #{id}
     </select>
 
-    <select id="findByOrderId" resultType="OrderProductCreateDto">
+    <select id="findByOrderId" resultType="OrderProduct">
         SELECT * FROM orderProduct
         WHERE
             orderId = #{orderId}
