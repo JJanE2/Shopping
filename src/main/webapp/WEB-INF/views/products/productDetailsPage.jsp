@@ -19,8 +19,8 @@
         <h2 class="text-center mb-3">Shopping</h2>
         <p class="text-center text-muted border-bottom pb-3">상품상세 페이지</p>
         <div class="container row mb-2">
-            <div id="imageDiv" class="col">
-                <p>상품 이미지 들어갈 곳</p>
+            <div id="imageDiv" class="col text-center">
+                <img src="/resources/images/default-image.jpg" class="img-fluid" alt="product-default-image">
             </div>
             <div id="descDiv" class="col">
                 <h3 class="text-start">상품명:${product.name}</h3>
