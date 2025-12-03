@@ -30,7 +30,7 @@
 
             <div class="mb-3">
                 <label for="stockQuantity" class="form-label">수량</label>
-                <input type="number" class="form-control" id="stockQuantity" name="stockQuantity" min="0" step="1" placeholder="수량을 입력해주세요">
+                <input type="number" class="form-control" id="stockQuantity" name="stockQuantity" min="1" step="1" placeholder="수량을 입력해주세요" required>
             </div>
 
             <div class="d-flex justify-content-center gap-3 mb-3">
