@@ -53,7 +53,7 @@ CREATE TABLE product (
     name VARCHAR2(100 CHAR),
     price NUMBER(10),
     description VARCHAR2(2000 CHAR),
-    stockQuantity NUMBER(10) DEFAULT 0,
+    stockQuantity NUMBER(10) NOT NULL,
     createdAt TIMESTAMP DEFAULT SYSTIMESTAMP,
     CONSTRAINT fk_product_member FOREIGN KEY (memberId) REFERENCES member(id) ON DELETE CASCADE
 )
