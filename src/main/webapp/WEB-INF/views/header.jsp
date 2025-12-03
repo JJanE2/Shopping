@@ -33,6 +33,9 @@
                     <li class="nav-item">
                         <a class="btn btn-outline-success" href="/products/new">상품추가</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-warning" href="/owner/orders">고객 주문관리</a>
+                    </li>
                 </c:if>
 
                 <li class="nav-item">

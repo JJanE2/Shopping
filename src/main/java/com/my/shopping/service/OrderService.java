@@ -14,4 +14,5 @@ public interface OrderService {
     int delete(Long id);
 
     void cancel(Long id);
+    List<Order> findByOwnerId(Long ownerId);
 }

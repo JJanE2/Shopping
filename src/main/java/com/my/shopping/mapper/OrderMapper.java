@@ -16,4 +16,6 @@ public interface OrderMapper {
     int update(OrderUpdateDto orderUpdateDto);
     int delete(Long id);
     int updateStatus(@Param("orderId") Long orderId, @Param("status") String status);
+
+    List<Order> findByOwnerId(@Param("ownerId") Long ownerId);
 }

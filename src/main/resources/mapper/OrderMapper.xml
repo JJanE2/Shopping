@@ -50,4 +50,17 @@
         WHERE
             id = #{orderId}
     </update>
+
+    <select id="findByOwnerId" resultType="Order">
+        SELECT DISTINCT o.*
+        FROM ORDERS o
+        JOIN orderProduct op
+            ON o.id = op.orderId
+        JOIN product p
+            ON op.productId = p.id
+        WHERE
+            p.memberId = #{ownerId}
+        ORDER BY
+            o.orderDate DESC
+    </select>
 </mapper>

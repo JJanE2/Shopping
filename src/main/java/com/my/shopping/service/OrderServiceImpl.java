@@ -89,4 +89,9 @@ public class OrderServiceImpl implements OrderService {
             productMapper.increaseStock(orderProduct.getProductId(), orderProduct.getQuantity());
         }
     }
+
+    @Override
+    public List<Order> findByOwnerId(Long ownerId) {
+        return orderMapper.findByOwnerId(ownerId);
+    }
 }
