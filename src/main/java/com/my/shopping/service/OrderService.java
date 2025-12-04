@@ -15,4 +15,8 @@ public interface OrderService {
 
     void cancel(Long id);
     List<Order> findByOwnerId(Long ownerId);
+
+    String getNextStatus(String currentStatus);
+
+    String advanceStatus(Long orderId);
 }

@@ -94,4 +94,23 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findByOwnerId(Long ownerId) {
         return orderMapper.findByOwnerId(ownerId);
     }
+
+    @Override
+    public String getNextStatus(String currentStatus) {
+        return switch (currentStatus) {
+            case "PAID" -> "SHIPPING";
+            case "SHIPPING" -> "COMPLETED";
+            default -> currentStatus; // COMPLETED / CANCELED 면 그대로
+        };
+    }
+
+    @Override
+    @Transactional
+    public String advanceStatus(Long orderId) {
+        Order order = orderMapper.findById(orderId);
+        String nextStatus = getNextStatus(order.getStatus());
+
+        orderMapper.updateStatus(orderId, nextStatus);
+        return nextStatus;
+    }
 }
