@@ -34,4 +34,14 @@ public class OrderApiController {
         response.put("nextStatus", nextStatus);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/owner/orders/{id}/cancel")
+    public ResponseEntity<String> forceCancelOrder(@PathVariable(value = "id") Long id) {
+        try {
+            orderService.forceCancel(id);
+            return ResponseEntity.ok("주문이 취소되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

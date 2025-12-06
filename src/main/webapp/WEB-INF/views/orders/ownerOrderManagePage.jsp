@@ -48,6 +48,13 @@
                                         data-order-id="${order.id}">
                                     상태 변경
                                 </button>
+                                <button
+                                    class="btn btn-sm btn-outline-danger owner-cancel-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cancelModal"
+                                    data-order-id="${order.id}">
+                                    취소
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -77,6 +84,24 @@
     </div>
 </div>
 
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelModalLabel">고객 주문 취소</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>정말 취소하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+        <button type="button" id="confirmCancelBtn" class="btn btn-danger">예</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
     // orderId 초기화
     let id = null;
@@ -94,7 +119,13 @@
         });
     });
 
-    // 비동기 요청
+    document.querySelectorAll(".owner-cancel-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                id = Number(this.dataset.orderId);
+            });
+        });
+
+    // status 변경 처리
     document.getElementById("confirmStatusBtn").addEventListener("click", function () {
         fetch(`/api/orders/` +  id + `/status/next`, {
             method: "POST"
@@ -115,6 +146,39 @@
         .catch(err => {
             alert("상태 변경 중 오류가 발생했습니다.");
             console.error(err);
+        });
+    });
+
+    // forceCancel 처리
+    document.getElementById("confirmCancelBtn").addEventListener("click", () => {
+        if (!id) return;
+
+        fetch(`/api/owner/orders/` + id + `/cancel`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            return response.text().then(message => {
+                if (!response.ok) {
+                    throw new Error(message);   // 서버가 보낸 메시지
+                }
+                return message;                 // 성공 메시지
+            });
+        })
+        .then(message => {
+            // UI 업데이트
+            document.getElementById(`status-`+ id).innerText = "주문 취소";
+            // 모달 닫기
+            const modal = bootstrap.Modal.getInstance(document.getElementById("cancelModal"));
+            modal.hide();
+
+            alert(message);
+        })
+        .catch(err => {
+            console.error(err);
+            alert(err.message);                 // 에러 메시지 표시
         });
     });
 </script>

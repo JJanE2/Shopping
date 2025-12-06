@@ -113,4 +113,19 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateStatus(orderId, nextStatus);
         return nextStatus;
     }
+
+    @Override
+    @Transactional
+    public void forceCancel(Long id) {
+        Order order = orderMapper.findById(id);
+        String status = order.getStatus();
+
+        // 이미 취소된 상태 처리
+        if (status.equals("CANCELED")) {
+            throw new IllegalStateException("이미 주문이 취소되었습니다.");
+        }
+
+        restoreStock(id);
+        orderMapper.updateStatus(id, "CANCELED");
+    }
 }

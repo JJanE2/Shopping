@@ -19,4 +19,5 @@ public interface OrderService {
     String getNextStatus(String currentStatus);
 
     String advanceStatus(Long orderId);
+    void forceCancel(Long id);
 }
