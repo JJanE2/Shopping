@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.shopping.mapper.CartMapper">
+
+    <!-- Cart + CartItem 조인한 전체 조회 -->
+    <select id="findByMemberId" resultMap="cartWithItems">
+        SELECT
+            c.id AS cartId,
+            c.memberId AS memberId,
+            ci.id AS itemId,
+            ci.productId AS productId,
+            ci.quantity AS quantity,
+            p.name AS product_name,
+            p.price AS price
+        FROM
+            cart c
+        LEFT JOIN
+            cartItem ci ON c.id = ci.cartId
+        LEFT JOIN
+            product p ON ci.productId = p.id
+        WHERE
+            c.memberId = #{memberId}
+    </select>
+
+    <!-- resultMap 정의 -->
+    <resultMap id="cartWithItems" type="Cart">
+        <id     property="id" column="cartId"/>
+        <result property="memberId" column="memberId"/>
+
+        <!-- notNullColumn 지정해줘야 left join 시 빈 CartItem 객체 생성 안함 -->
+        <collection property="items" ofType="CartItem" notNullColumn="itemId">
+            <id     property="id" column="itemId"/>
+            <result property="cartId" column="cartId"/>
+            <result property="productId" column="productId"/>
+            <result property="productName" column="product_name"/>
+            <result property="price" column="price"/>
+            <result property="quantity" column="quantity"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertCart" parameterType="cartCreateDto">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT cart_seq.NEXTVAL FROM dual
+        </selectKey>
+
+        INSERT INTO cart(id, memberId)
+        VALUES (#{id}, #{memberId})
+    </insert>
+
+    <insert id="insertCartItem" parameterType="cartItemCreateDto">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT cartItem_seq.NEXTVAL FROM dual
+        </selectKey>
+
+        INSERT INTO cartItem(id, cartId, productId, quantity)
+        VALUES (#{id}, #{cartId}, #{productId}, #{quantity})
+    </insert>
+
+    <update id="updateCartItem" parameterType="cartItemUpdateDto">
+        UPDATE cartItem
+        SET quantity = #{updateDto.quantity}
+        WHERE id = #{updateDto.id}
+    </update>
+
+    <delete id="deleteCartItem" parameterType="cartItemDeleteDto">
+        DELETE FROM cartItem
+        WHERE id = #{deleteDto.id}
+    </delete>
+</mapper>
