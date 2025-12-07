@@ -14,3 +14,11 @@ VALUES (orders_seq.NEXTVAL, 1, 3000)/
 -- OrderProduct data
 INSERT INTO orderProduct (id, orderId, productId, productName, price, quantity)
 VALUES (orderProduct_seq.NEXTVAL, 1, 1, 'testProduct', 1000, 3)/
+
+-- Cart data
+INSERT INTO cart (id, memberId)
+VALUES (cart_seq.NEXTVAL, 1)/
+
+-- CartItem data
+INSERT INTO cartItem (id, cartId, productId, productName, price, quantity)
+VALUES (cartItem_seq.NEXTVAL, 1, 1, 'testProduct', 1000, 9)/
