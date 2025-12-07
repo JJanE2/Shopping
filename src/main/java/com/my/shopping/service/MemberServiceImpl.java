@@ -1,9 +1,11 @@
 package com.my.shopping.service;
 
+import com.my.shopping.domain.cart.dto.CartCreateDto;
 import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.domain.member.dto.MemberLoginDto;
 import com.my.shopping.domain.member.dto.MemberUpdateDto;
+import com.my.shopping.mapper.CartMapper;
 import com.my.shopping.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberMapper memberMapper;
+    private final CartMapper cartMapper;
 
     @Override
     @Transactional
     public void insert(MemberCreateDto memberCreateDto) {
         memberMapper.insert(memberCreateDto);
+        cartMapper.insertCart(new CartCreateDto(null, memberCreateDto.getId()));
     }
 
     @Override
