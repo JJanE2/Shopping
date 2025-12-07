@@ -37,7 +37,9 @@
                         <a class="btn btn-outline-warning" href="/owner/orders">고객 주문관리</a>
                     </li>
                 </c:if>
-
+                <li class="nav-item">
+                    <a class="btn btn-outline-info" href="/cart">장바구니</a>
+                </li>
                 <li class="nav-item">
                     <a class="btn btn-outline-primary" href="/members/${sessionScope.memberId}">마이페이지</a>
                 </li>
