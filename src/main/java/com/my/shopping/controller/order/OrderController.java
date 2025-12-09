@@ -1,9 +1,11 @@
 package com.my.shopping.controller.order;
 
+import com.my.shopping.domain.cart.Cart;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderRequestDto;
 import com.my.shopping.domain.orderProduct.OrderProduct;
+import com.my.shopping.service.CartService;
 import com.my.shopping.service.OrderProductService;
 import com.my.shopping.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
     private final OrderProductService orderProductService;
+    private final CartService cartService;
 
     @PostMapping("/orders/new")
     public String getOrderCreatePage(@ModelAttribute OrderCreateDto orderCreateDto,
@@ -69,5 +72,18 @@ public class OrderController {
         List<Order> orders = orderService.findByOwnerId(ownerId);
         model.addAttribute("orders", orders);
         return "/orders/ownerOrderManagePage";
+    }
+
+    @PostMapping("/orders/cart")
+    public String confirmOrderByCart(HttpSession session) {
+        Long memberId = (Long) session.getAttribute("memberId");
+        Cart cart = cartService.findByMemberId(memberId);
+
+        // 주문생성
+        Long orderId = orderService.orderFromCart(cart);
+
+        // 주문생성 성공 시 장바구니 비우기
+        cartService.clearCart(cart.getId());
+        return "redirect:/orders/" + orderId;
     }
 }

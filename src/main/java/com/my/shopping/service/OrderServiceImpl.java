@@ -1,5 +1,7 @@
 package com.my.shopping.service;
 
+import com.my.shopping.domain.cart.Cart;
+import com.my.shopping.domain.cart.CartItem;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
@@ -127,5 +129,32 @@ public class OrderServiceImpl implements OrderService {
 
         restoreStock(id);
         orderMapper.updateStatus(id, "CANCELED");
+    }
+
+    @Override
+    @Transactional
+    public Long orderFromCart(Cart cart) {
+        OrderCreateDto orderCreateDto = convertCartToOrderDto(cart);
+        return insert(orderCreateDto);
+    }
+
+    private OrderCreateDto convertCartToOrderDto(Cart cart) {
+        OrderCreateDto dto = new OrderCreateDto();
+        dto.setMemberId(cart.getMemberId());
+
+        int total = 0;
+
+        for (CartItem item : cart.getItems()) {
+            OrderProductCreateDto p = new OrderProductCreateDto();
+            p.setProductId(item.getProductId());
+            p.setProductName(item.getProductName());
+            p.setPrice(item.getPrice());
+            p.setQuantity(item.getQuantity());
+            dto.getProducts().add(p);
+
+            total += item.getPrice() * item.getQuantity();
+        }
+        dto.setTotalPrice(total);
+        return dto;
     }
 }

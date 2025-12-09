@@ -21,6 +21,7 @@ public class CartController {
         Cart cart = cartService.findByMemberId(memberId);
         List<CartItem> items = cart.getItems();
 
+        model.addAttribute("cartId", cart.getId());
         model.addAttribute("items", items);
         return "/cart/cartPage";
     }

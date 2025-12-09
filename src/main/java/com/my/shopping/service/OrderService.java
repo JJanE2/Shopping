@@ -1,5 +1,6 @@
 package com.my.shopping.service;
 
+import com.my.shopping.domain.cart.Cart;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
@@ -20,4 +21,6 @@ public interface OrderService {
 
     String advanceStatus(Long orderId);
     void forceCancel(Long id);
+
+    Long orderFromCart(Cart cart);
 }

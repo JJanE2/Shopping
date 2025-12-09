@@ -47,6 +47,12 @@
                 <button id="order-confirm-btn" class="btn btn-primary w-100" type="submit">주문하기</button>
 
                 </form>
+
+                <form id="cart-form" class="mt-2">
+                    <input type="hidden" name="productId" value="${product.id}">
+                    <input type="hidden" name="quantity" id="cartQuantity" value="1">
+                    <button class="btn btn-success w-100" type="submit">장바구니 담기</button>
+                </form>
             </div>
         </div>
     </section>
@@ -110,6 +116,7 @@
     const totalPrice = document.getElementById("totalPrice");       // 총 주문 금액
     const totalPriceInput = document.getElementById('totalPriceInput');
     const quantityHidden = document.getElementById('quantity');
+    const cartQuantityHidden = document.getElementById('cartQuantity');
 
 
     quantityInput.addEventListener("input", () => {
@@ -125,7 +132,38 @@
       // form hidden input에 숫자로 값 넣기
       totalPriceInput.value = price;
       quantityHidden.value = quantity;
+      cartQuantityHidden.value = quantity;
 
+    });
+
+    document.getElementById("cart-form").addEventListener("submit", function(e) {
+        e.preventDefault(); // 기본 submit 막기
+
+        const data = {
+            productId: document.querySelector("input[name='productId']").value,
+            quantity: document.querySelector("input[name='quantity']").value
+        };
+
+        fetch("/api/cart/items", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(result => {
+            // 메시지 출력 (선택)
+            alert(result.message);
+            // 이동 여부 묻기
+            const goCart = confirm("장바구니로 이동하시겠습니까?");
+            if (goCart) {
+                // 예(확인) → 장바구니 페이지로 이동
+                window.location.href = "/cart";
+            }
+            // 아니오(취소) → 아무것도 안 함
+        })
+        .catch(err => console.error(err));
     });
 
 </script>
