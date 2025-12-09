@@ -55,7 +55,7 @@
         </selectKey>
 
         INSERT INTO cartItem(id, cartId, productId, quantity)
-        VALUES (#{id}, #{cartId}, #{productId}, #{quantity})
+        VALUES (#{id}, #{createDto.cartId}, #{createDto.productId}, #{createDto.quantity})
     </insert>
 
     <update id="updateCartItem" parameterType="cartItemUpdateDto">
@@ -67,5 +67,10 @@
     <delete id="deleteCartItem" parameterType="cartItemDeleteDto">
         DELETE FROM cartItem
         WHERE id = #{deleteDto.id}
+    </delete>
+    
+    <delete id="deleteAllCartItems">
+        DELETE FROM cartItem
+        WHERE cartId = #{cartId}
     </delete>
 </mapper>

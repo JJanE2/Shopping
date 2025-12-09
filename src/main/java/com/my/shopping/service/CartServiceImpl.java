@@ -44,4 +44,10 @@ public class CartServiceImpl implements CartService {
     public void deleteCartItem(CartItemDeleteDto deleteDto) {
         cartMapper.deleteCartItem(deleteDto);
     }
+
+    @Override
+    @Transactional
+    public void clearCart(Long cartId) {
+        cartMapper.deleteAllCartItems(cartId);
+    }
 }
