@@ -25,7 +25,14 @@ public class OrderController {
 
     @PostMapping("/orders/new")
     public String getOrderCreatePage(@ModelAttribute OrderCreateDto orderCreateDto,
-                                     @SessionAttribute("memberId") Long memberId, Model model) {
+                                     HttpSession session, Model model) {
+        Long memberId = (Long) session.getAttribute("memberId");
+
+        // 로그인 체크
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("orderCreateDto", orderCreateDto);
         model.addAttribute("memberId", memberId);
         return "/orders/orderCreatePage";

@@ -109,6 +109,10 @@
     </main>
 </section>
 <script>
+
+    // 로그인 여부 체크
+    const isLoggedIn = ${sessionScope.member != null ? 'true' : 'false'};
+
     const productPrice = ${product.price};                          // 상품 단가
     const quantityInput = document.getElementById("quantityInput"); // 개수 입력창
     const maxQuantity = parseInt(quantityInput.max);                // max 속성 가져오기
@@ -138,6 +142,17 @@
 
     document.getElementById("cart-form").addEventListener("submit", function(e) {
         e.preventDefault(); // 기본 submit 막기
+
+        // 비로그인 사용자 처리
+        if (!isLoggedIn) {
+            const goLoginPage =  confirm("로그인페이지로 이동하시겠습니까?");
+            if (goLoginPage) {
+                window.location.href = "/login";
+                return;
+            } else {
+                return;
+            }
+        }
 
         const data = {
             productId: document.querySelector("input[name='productId']").value,
