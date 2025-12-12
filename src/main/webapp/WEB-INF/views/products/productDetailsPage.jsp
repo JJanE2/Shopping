@@ -71,10 +71,12 @@
 </div>
 
     <section id="product-detail" class="container border rounded shadow py-3 my-5">
-        <p class="text-start">설명:${product.description}</p>
+        <h4 class="fw-bold text-start">상품 정보</h4><hr>
+        <p class="fw-bold text-start">${product.description}</p>
     </section>
 
     <section id="reviews" class="container border rounded shadow py-3 my-5">
+        <h4 class="fw-bold text-start">리뷰</h4><hr>
         <p>리뷰 내용 테스트</p>
         <p>리뷰 내용 테스트</p>
         <p>리뷰 내용 테스트</p>
@@ -91,20 +93,11 @@
     </section>
 
     <section id="shipping" class="container border rounded shadow py-3 my-5">
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
-        <p>배송안내 내용 테스트</p>
+        <h4 class="fw-bold text-start">배송 안내</h4><hr>
+        <ul>
+            <li class="text-muted">전 상품 무료배송입니다. (일부 상품 및 도서산간지역 제외)</li>
+            <li class="text-muted">결제 확인 후 평균 1-3일 소요 됩니다. (예약 상품, 해외배송 상품은 배송기간이 다를 수 있습니다.)</li>
+        </ul>
     </section>
     </main>
 </section>
