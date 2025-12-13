@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.shopping.mapper.ReviewMapper">
+
+    <insert id="insert" parameterType="reviewCreateDto">
+
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT review_seq.NEXTVAL FROM dual
+        </selectKey>
+
+        INSERT INTO review (id, memberId, productId, content, rating)
+        VALUES (#{id}, #{memberId}, #{productId}, #{content}, #{rating})
+    </insert>
+
+    <select id="findById" resultType="Review">
+        SELECT * FROM REVIEW
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="findByMemberId" resultType="Review">
+        SELECT * FROM REVIEW
+        WHERE
+            memberId = #{memberId}
+        ORDER BY
+            createdAt DESC
+    </select>
+
+    <select id="findByProductId" resultType="Review">
+        SELECT * FROM REVIEW
+        WHERE
+            product = #{productId}
+    </select>
+
+    <update id="update" parameterType="reviewUpdateDto">
+        UPDATE review
+        SET
+            content = #{updateDto.content}
+        WHERE
+            id = #{updateDto.id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM REVIEW
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

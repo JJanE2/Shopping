@@ -14,5 +14,7 @@
         <package name="com.my.shopping.domain.orderProduct.dto"/>
         <!-- CartDto -->
         <package name="com.my.shopping.domain.cart.dto"/>
+        <!-- ReviewDto -->
+        <package name="com.my.shopping.domain.review.dto"/>
     </typeAliases>
 </configuration>
