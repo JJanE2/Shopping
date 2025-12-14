@@ -157,4 +157,9 @@ public class OrderServiceImpl implements OrderService {
         dto.setTotalPrice(total);
         return dto;
     }
+
+    @Override
+    public OrderProduct findByOrderProductId(Long orderProductId) {
+        return orderMapper.findByOrderProductId(orderProductId);
+    }
 }

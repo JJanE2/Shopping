@@ -3,6 +3,7 @@ package com.my.shopping.mapper;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
+import com.my.shopping.domain.orderProduct.OrderProduct;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,4 +19,7 @@ public interface OrderMapper {
     int updateStatus(@Param("orderId") Long orderId, @Param("status") String status);
 
     List<Order> findByOwnerId(@Param("ownerId") Long ownerId);
+    int updateReviewId(@Param("orderProductId") Long orderProductId, @Param("reviewId") Long reviewId);
+
+    OrderProduct findByOrderProductId(Long id);
 }

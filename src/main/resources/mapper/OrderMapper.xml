@@ -20,13 +20,49 @@
             id = #{id}
     </select>
 
-    <select id="findByMemberId" resultType="Order">
-        SELECT * FROM ORDERS
+    <select id="findByMemberId" resultMap="orderWithProducts" parameterType="long">
+        SELECT
+            o.id            AS orderId,
+            o.memberId      AS memberId,
+            o.orderDate     AS orderDate,
+            o.status        AS status,
+            o.totalPrice    AS totalPrice,
+
+            op.id           AS orderProductId,
+            op.productId    AS productId,
+            op.productName  AS productName,
+            op.price        AS price,
+            op.quantity     AS quantity,
+            op.reviewId     AS reviewId
+        FROM
+            orders o
+        JOIN orderProduct op
+            ON o.id = op.orderId
         WHERE
-            memberId = #{memberId}
+            o.memberId = #{memberId}
         ORDER BY
-            orderDate DESC
+            o.orderDate DESC
     </select>
+
+    <!-- resultMap 정의 -->
+    <resultMap id="orderWithProducts" type="Order">
+        <id     property="id" column="orderId"/>
+        <result property="memberId" column="memberId"/>
+        <result property="orderDate" column="orderDate"/>
+        <result property="status" column="status"/>
+        <result property="totalPrice" column="totalPrice"/>
+
+        <!-- notNullColumn 지정해줘야 left join 시 빈 OrderProduct 객체 생성 안함 -->
+        <collection property="products" ofType="OrderProduct">
+            <id     property="id" column="orderProductId"/>
+            <result property="orderId" column="orderId"/>
+            <result property="productId" column="productId"/>
+            <result property="productName" column="productName"/>
+            <result property="price" column="price"/>
+            <result property="quantity" column="quantity"/>
+            <result property="reviewId" column="reviewId"/>
+        </collection>
+    </resultMap>
 
     <update id="update" parameterType="orderUpdateDto">
         UPDATE orders
@@ -62,5 +98,19 @@
             p.memberId = #{ownerId}
         ORDER BY
             o.orderDate DESC
+    </select>
+
+    <update id="updateReviewId">
+        UPDATE orderProduct
+        SET
+            reviewId = #{reviewId}
+        WHERE
+            id = #{orderProductId}
+    </update>
+
+    <select id="findByOrderProductId" resultType="OrderProduct">
+        SELECT * FROM orderProduct
+        WHERE
+            id = #{id}
     </select>
 </mapper>

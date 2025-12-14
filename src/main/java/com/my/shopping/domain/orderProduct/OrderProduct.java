@@ -12,4 +12,5 @@ public class OrderProduct {
     private String productName;
     private Integer price;
     private Integer quantity;
+    private Long reviewId;
 }

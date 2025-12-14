@@ -116,6 +116,7 @@ CREATE TABLE orderProduct (
     productName VARCHAR2(100 CHAR),
     price NUMBER(10),
     quantity NUMBER(10),
+    reviewId NUMBER(19) DEFAULT NULL,
     CONSTRAINT fk_orderProduct_orders FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE,
     CONSTRAINT fk_orderProduct_product FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE
 )
