@@ -11,56 +11,80 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <section class="container d-flex align-items-center w-75 min-vh-100">
     <main class="container">
-        <div class="list-group">
-            <table class="table table-striped table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">주문 ID</th>
-                        <th scope="col">주문날짜</th>
-                        <th scope="col">금액</th>
-                        <th scope="col">상태</th>
-                        <th scope="col">관리</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="order" items="${orders}">
-                        <tr>
-                            <td>
-                                <a href="/orders/${order.id}"><span>${order.id}</span></a>
-                            </td>
-                            <td>
-                                <fmt:formatDate value="${order.orderDate}" pattern="yyyy년 M월 d일"/>
-                            </td>
-                            <td>
-                                <span>${order.totalPrice}</span>
-                            </td>
-                            <td>
-                                <span class="text-muted">
-                                    <c:choose>
-                                        <c:when test="${order.status == 'PAID'}">결제완료</c:when>
-                                        <c:when test="${order.status == 'SHIPPING'}">배송 중</c:when>
-                                        <c:when test="${order.status == 'COMPLETED'}">배송 완료</c:when>
-                                        <c:when test="${order.status == 'CANCELED'}">주문 취소</c:when>
-                                        <c:otherwise>알 수 없음</c:otherwise>
-                                    </c:choose>
-                                </span>
-                            </td>
-                            <td>
-                                <a href="/orders/${order.id}/edit" class="btn btn-sm btn-outline-primary me-1">수정</a>
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#cancelModal"
-                                    data-order-id="${order.id}">
-                                    취소
-                                </button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
+        <c:forEach var="order" items="${orders}">
+          <section class="border p-3 mb-4">
+              <!-- 주문 정보 -->
+              <div class="d-flex justify-content-between mb-2">
+                  <div>
+                      <a href="/orders/${order.id}">
+                        <fmt:formatDate value="${order.orderDate}" pattern="yyyy년 M월 d일"/>
+                      </a>
+                  </div>
+                  <div>
+                      <span class="text-muted">
+                      <c:choose>
+                          <c:when test="${order.status == 'PAID'}">결제완료</c:when>
+                          <c:when test="${order.status == 'SHIPPING'}">배송 중</c:when>
+                          <c:when test="${order.status == 'COMPLETED'}">배송 완료</c:when>
+                          <c:when test="${order.status == 'CANCELED'}">주문 취소</c:when>
+                          <c:otherwise>알 수 없음</c:otherwise>
+                      </c:choose>
+                      </span>
+                  </div>
+              </div>
+              <!-- 주문상품 테이블 -->
+              <table class="table table-sm text-center align-middle mb-0">
+                  <thead class="table-light">
+                  <tr>
+                      <th>상품명</th>
+                      <th>수량</th>
+                      <th>가격</th>
+                      <th>리뷰</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <c:forEach var="product" items="${order.products}">
+                      <tr>
+                          <td><a href="/products/${product.id}">${product.productName}</a></td>
+                          <td>${product.quantity}</td>
+                          <td>${product.price}</td>
+                          <td>
+                              <c:set var="isCompleted" value="${order.status eq 'COMPLETED'}"/>
+                              <!-- 리뷰작성 안했으면 작성, 했으면 수정 버튼 표시 -->
+                              <c:if test="${empty product.reviewId}">
+                                <a class="btn btn-sm btn-outline-success ${!isCompleted ? 'disabled' : ''}"
+                                  href="/reviews/new?orderProductId=${product.id}">
+                                  리뷰 작성
+                                </a>
+                              </c:if>
+                              <c:if test="${product.reviewId != null}">
+                                <a class="btn btn-sm btn-outline-success" href="/reviews/${product.reviewId}/edit">
+                                  리뷰 수정
+                                </a>
+                              </c:if>
+                          </td>
+                      </tr>
+                  </c:forEach>
+                  </tbody>
+              </table>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="text-danger fw-bold">총 금액 : ${order.totalPrice}</span>
+                </div>
+                <div>
+                  <button
+                      type="button"
+                      class="btn btn-sm btn-outline-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#cancelModal"
+                      data-order-id="${order.id}">
+                      취소
+                  </button>
+                </div>
+              </div>
+          </section>
+        </c:forEach>
     </main>
 </section>
 <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
@@ -120,6 +144,7 @@ let cancelOrderId = null; // 모달에서 취소할 주문 ID 저장
         .catch(err => {
             console.error(err);
             alert(err.message);                 // 에러 메시지 표시
+            window.location.reload();
         });
     });
 </script>

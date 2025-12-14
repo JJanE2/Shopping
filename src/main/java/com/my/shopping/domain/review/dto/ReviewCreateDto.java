@@ -9,4 +9,5 @@ public class ReviewCreateDto {
     private Long productId;
     private String content;
     private Integer rating;
+    private Long orderProductId;
 }
