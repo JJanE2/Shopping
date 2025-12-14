@@ -52,10 +52,16 @@
                               <c:set var="isCompleted" value="${order.status eq 'COMPLETED'}"/>
                               <!-- 리뷰작성 안했으면 작성, 했으면 수정 버튼 표시 -->
                               <c:if test="${empty product.reviewId}">
-                                <a class="btn btn-sm btn-outline-success ${!isCompleted ? 'disabled' : ''}"
-                                  href="/reviews/new?orderProductId=${product.id}">
-                                  리뷰 작성
-                                </a>
+                                <c:if test="${product.hasWrittenReview}">
+                                    <%-- 이미 리뷰 작성함 --%>
+                                    <span class="text-muted small">리뷰 작성 완료</span>
+                                </c:if>
+                                <c:if test="${!product.hasWrittenReview}">
+                                  <a class="btn btn-sm btn-outline-success ${!isCompleted ? 'disabled' : ''}"
+                                    href="/reviews/new?orderProductId=${product.id}">
+                                    리뷰 작성
+                                  </a>
+                                </c:if>
                               </c:if>
                               <c:if test="${product.reviewId != null}">
                                 <a class="btn btn-sm btn-outline-success" href="/reviews/${product.reviewId}/edit">

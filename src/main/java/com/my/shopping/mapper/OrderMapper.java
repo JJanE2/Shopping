@@ -22,4 +22,5 @@ public interface OrderMapper {
     int updateReviewId(@Param("orderProductId") Long orderProductId, @Param("reviewId") Long reviewId);
 
     OrderProduct findByOrderProductId(Long id);
+    void setHasWrittenReview(@Param("orderProductId") Long orderProductId);
 }

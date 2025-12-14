@@ -162,4 +162,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderProduct findByOrderProductId(Long orderProductId) {
         return orderMapper.findByOrderProductId(orderProductId);
     }
+
+    @Override
+    public void markReviewAsWritten(Long orderProductId) {
+        orderMapper.setHasWrittenReview(orderProductId);
+    }
 }

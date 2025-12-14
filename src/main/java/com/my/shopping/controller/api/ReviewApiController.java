@@ -5,6 +5,7 @@ import com.my.shopping.domain.review.Review;
 import com.my.shopping.domain.review.dto.ReviewCreateDto;
 import com.my.shopping.domain.review.dto.ReviewUpdateDto;
 import com.my.shopping.service.MemberService;
+import com.my.shopping.service.OrderService;
 import com.my.shopping.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Map;
 public class ReviewApiController {
     private final ReviewService reviewService;
     private final MemberService memberService;
+    private final OrderService orderService;
 
     @PostMapping("/reviews")
     public ResponseEntity<Map<String, Object>> createReview(@RequestBody ReviewCreateDto reviewCreateDto) {
@@ -28,6 +30,9 @@ public class ReviewApiController {
         Map<String, Object> response = new HashMap<>();
         response.put("message", "리뷰가 등록 되었습니다.");
         response.put("productId", reviewCreateDto.getProductId());
+
+        // 리뷰 재작성 방지를 위해 orderProduct 에 리뷰 작성여부 표시
+        orderService.markReviewAsWritten(reviewCreateDto.getOrderProductId());
         return ResponseEntity.ok(response);
     }
 

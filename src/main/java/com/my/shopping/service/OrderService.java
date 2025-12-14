@@ -25,4 +25,6 @@ public interface OrderService {
 
     Long orderFromCart(Cart cart);
     OrderProduct findByOrderProductId(Long orderProductId);
+
+    void markReviewAsWritten(Long orderProductId);
 }
