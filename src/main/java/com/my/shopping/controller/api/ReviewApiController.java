@@ -46,4 +46,14 @@ public class ReviewApiController {
         response.put("productId", review.getProductId());
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/reviews/{id}")
+    public ResponseEntity<String> deleteReview(@PathVariable(value = "id") Long id) {
+        try {
+            reviewService.delete(id);
+            return ResponseEntity.ok("리뷰가 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

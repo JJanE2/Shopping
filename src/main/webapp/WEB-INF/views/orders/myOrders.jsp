@@ -61,6 +61,14 @@
                                 <a class="btn btn-sm btn-outline-success" href="/reviews/${product.reviewId}/edit">
                                   리뷰 수정
                                 </a>
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#review-delete-modal"
+                                    data-review-id="${product.reviewId}">
+                                    삭제
+                                </button>
                               </c:if>
                           </td>
                       </tr>
@@ -105,8 +113,27 @@
   </div>
 </div>
 
+// 리뷰 삭제 모달
+<div class="modal fade" id="review-delete-modal" tabindex="-1" aria-labelledby="deleteReviewLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteReviewLabel">리뷰 삭제</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteMessage">정말 삭제 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" id="confirmReviewDeleteBtn" class="btn btn-danger">삭제</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 let cancelOrderId = null; // 모달에서 취소할 주문 ID 저장
+let deleteReviewId = null; // 모달에서 삭제할 리뷰 ID 저장
 
 // 모달 열릴 때
     const cancelModal = document.getElementById('cancelModal');
@@ -147,6 +174,46 @@ let cancelOrderId = null; // 모달에서 취소할 주문 ID 저장
             window.location.reload();
         });
     });
+
+// 모달 열릴 때
+const reviewDeleteModal = document.getElementById('review-delete-modal');
+reviewDeleteModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget; // 클릭한 취소 버튼
+    deleteReviewId = button.getAttribute('data-review-id');
+
+    // 모달 메시지 업데이트
+    const message = reviewDeleteModal.querySelector('#deleteMessage');
+    message.innerText = "리뷰를 정말 삭제하시겠습니까?";
+});
+
+// 확인 버튼 클릭 시 fetch DELETE
+document.getElementById("confirmReviewDeleteBtn").addEventListener("click", () => {
+    if (!deleteReviewId) return;
+    fetch(`/api/reviews/` + deleteReviewId, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        return response.text().then(message => {
+            if (!response.ok) {
+                throw new Error(message);   // 서버가 보낸 메시지
+            }
+            return message;                 // 성공 메시지
+        });
+    })
+    .then(message => {
+        alert(message);
+        window.location.reload();
+    })
+    .catch(err => {
+        console.error(err);
+        alert(err.message);                 // 에러 메시지 표시
+        window.location.reload();
+    });
+});
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </main>
