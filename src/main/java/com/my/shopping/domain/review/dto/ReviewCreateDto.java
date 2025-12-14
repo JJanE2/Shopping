@@ -10,4 +10,5 @@ public class ReviewCreateDto {
     private String content;
     private Integer rating;
     private Long orderProductId;
+    private String memberNickname;
 }

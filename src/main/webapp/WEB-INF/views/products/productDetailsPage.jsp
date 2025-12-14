@@ -77,19 +77,23 @@
 
     <section id="reviews" class="container border rounded shadow py-3 my-5">
         <h4 class="fw-bold text-start">리뷰</h4><hr>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
-        <p>리뷰 내용 테스트</p>
+        <c:choose>
+            <%-- 리뷰가 있을 때 --%>
+            <c:when test="${not empty reviews}">
+                <c:forEach var="review" items="${reviews}">
+                    <div class="review-item mb-3">
+                        <p> <span class="fw-bold">${review.memberNickname}</span> <span class="badge text-bg-success">${review.rating}점</span></p>
+                        <p>${review.content}</p>
+                    </div><hr>
+                </c:forEach>
+            </c:when>
+            <%-- 리뷰가 없을 때 --%>
+            <c:otherwise>
+                <p class="text-muted text-center">
+                    아직 작성된 리뷰가 없습니다.
+                </p>
+            </c:otherwise>
+        </c:choose>
     </section>
 
     <section id="shipping" class="container border rounded shadow py-3 my-5">

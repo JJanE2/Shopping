@@ -24,5 +24,5 @@ INSERT INTO cartItem (id, cartId, productId, productName, price, quantity)
 VALUES (cartItem_seq.NEXTVAL, 1, 1, 'testProduct', 1000, 9)/
 
 -- Review data
-INSERT INTO review (id, memberId, productId, content, rating)
-VALUES (review_seq.NEXTVAL, 1, 1, 'testReviewContent', 5.0)/
+INSERT INTO review (id, memberId, productId, content, rating, memberNickname)
+VALUES (review_seq.NEXTVAL, 1, 1, 'testReviewContent', 5.0, 'test')/

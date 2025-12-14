@@ -10,8 +10,8 @@
             SELECT review_seq.NEXTVAL FROM dual
         </selectKey>
 
-        INSERT INTO review (id, memberId, productId, content, rating)
-        VALUES (#{id}, #{memberId}, #{productId}, #{content}, #{rating})
+        INSERT INTO review (id, memberId, productId, content, rating, memberNickname)
+        VALUES (#{id}, #{memberId}, #{productId}, #{content}, #{rating}, #{memberNickname})
     </insert>
 
     <select id="findById" resultType="Review">
@@ -31,7 +31,7 @@
     <select id="findByProductId" resultType="Review">
         SELECT * FROM REVIEW
         WHERE
-            product = #{productId}
+            productId = #{productId}
     </select>
 
     <update id="update" parameterType="reviewUpdateDto">

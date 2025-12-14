@@ -53,9 +53,9 @@
             contentType: "application/json",
             data: JSON.stringify(reviewCreateDto),
             success: function (response) {
-                const { message, reviewId } = response;
+                const { message, productId } = response;
                 alert(message);
-                location.href = "/";
+                location.href = "/products/" + productId;
             },
             error: function () {
                 alert("리뷰 등록 중 오류가 발생했습니다.");

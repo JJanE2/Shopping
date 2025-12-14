@@ -1,7 +1,9 @@
 package com.my.shopping.controller.product;
 
 import com.my.shopping.domain.product.Product;
+import com.my.shopping.domain.review.Review;
 import com.my.shopping.service.ProductService;
+import com.my.shopping.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final ReviewService reviewService;
 
     @GetMapping("/products/new")
     public String getProductCreatePage(@SessionAttribute("memberId") Long memberId, Model model) {
@@ -26,6 +29,8 @@ public class ProductController {
     public String getProductDetailsPage(@PathVariable(value = "id") Long id, Model model) {
         Product product = productService.findById(id);
         model.addAttribute("product", product);
+        List<Review> reviews = reviewService.findByProductId(id);
+        model.addAttribute("reviews", reviews);
         return "/products/productDetailsPage";
     }
 

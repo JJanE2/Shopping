@@ -16,4 +16,5 @@ public class Review {
     private String content;
     private Double rating;
     private Date createdAt;
+    private String memberNickname;
 }

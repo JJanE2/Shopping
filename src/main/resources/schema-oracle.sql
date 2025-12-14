@@ -208,7 +208,11 @@ CREATE TABLE review (
     content VARCHAR2(100 CHAR),
     rating NUMBER(3,2),
     createdAt TIMESTAMP DEFAULT SYSTIMESTAMP,
+    memberNickname VARCHAR2(15 CHAR),
     CONSTRAINT fk_review_member FOREIGN KEY (memberId) REFERENCES member(id) ON DELETE CASCADE,
     CONSTRAINT fk_review_product FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE
 )
+/
+ALTER TABLE orderProduct
+ADD CONSTRAINT fk_orderProduct_review FOREIGN KEY (reviewId) REFERENCES review(id) ON DELETE SET NULL
 /
