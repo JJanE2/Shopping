@@ -1,12 +1,14 @@
 package com.my.shopping.controller.review;
 
 import com.my.shopping.domain.orderProduct.OrderProduct;
+import com.my.shopping.domain.review.Review;
 import com.my.shopping.service.OrderService;
 import com.my.shopping.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -28,5 +30,12 @@ public class ReviewController {
         model.addAttribute("orderProductId", orderProductId);
         model.addAttribute("memberId", memberId);
         return "/reviews/reviewCreatePage";
+    }
+
+    @GetMapping("/reviews/{id}/edit")
+    public String getReviewEditPage(@PathVariable(value = "id") Long id, Model model) {
+        Review review = reviewService.findById(id);
+        model.addAttribute("review", review);
+        return "/reviews/reviewEditPage";
     }
 }

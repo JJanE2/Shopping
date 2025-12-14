@@ -30,4 +30,20 @@ public class ReviewApiController {
         response.put("productId", reviewCreateDto.getProductId());
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/reviews/{id}")
+    public ResponseEntity<Map<String, Object>> updateReview(@PathVariable(value = "id") Long reviewId,
+                                                             @RequestBody ReviewUpdateDto updateDto) {
+        Review review = reviewService.findById(reviewId);
+        int updatedRows = reviewService.update(updateDto);
+        Map<String, Object> response = new HashMap<>();
+        if (updatedRows == 0) {
+            response.put("message", "리뷰수정중 오류가 발생했습니다.");
+            response.put("productId", null);
+            return ResponseEntity.badRequest().body(response);
+        }
+        response.put("message", "리뷰가 수정 되었습니다.");
+        response.put("productId", review.getProductId());
+        return ResponseEntity.ok(response);
+    }
 }
