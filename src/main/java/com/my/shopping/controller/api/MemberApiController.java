@@ -4,6 +4,7 @@ import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.domain.member.dto.MemberLoginDto;
 import com.my.shopping.domain.member.dto.MemberUpdateDto;
+import com.my.shopping.service.KakaoService;
 import com.my.shopping.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/api")
 public class MemberApiController {
     private final MemberService memberService;
+    private final KakaoService kakaoService;
 
     @PostMapping("/members")
     public ResponseEntity<String> createMember(@RequestBody MemberCreateDto memberCreateDto) {
@@ -51,8 +53,15 @@ public class MemberApiController {
 
     @DeleteMapping("/members/{id}")
     public ResponseEntity<String> deleteMember(@PathVariable(value = "id") Long id, HttpSession session) {
-        session.invalidate();
+        String accessToken = (String) session.getAttribute("KAKAO_ACCESS_TOKEN");
+
+        // 카카오 회원 이면 회원탈퇴시 unlink 추가
+        if (accessToken != null) {
+            kakaoService.unlink(accessToken);
+        }
+
         memberService.delete(id);
+        session.invalidate();
         return ResponseEntity.ok("탈퇴 되었습니다.");
     }
 }
