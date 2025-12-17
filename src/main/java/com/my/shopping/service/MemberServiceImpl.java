@@ -2,6 +2,7 @@ package com.my.shopping.service;
 
 import com.my.shopping.domain.cart.dto.CartCreateDto;
 import com.my.shopping.domain.member.Member;
+import com.my.shopping.domain.member.dto.KakaoUserInfo;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.domain.member.dto.MemberLoginDto;
 import com.my.shopping.domain.member.dto.MemberUpdateDto;
@@ -61,5 +62,24 @@ public class MemberServiceImpl implements MemberService{
     public Boolean isDuplicatedLoginId(String loginId) {
         Member findMember = memberMapper.findByLoginId(loginId);
         return findMember != null;
+    }
+
+    @Override
+    public Member findByKakaoId(String kakaoId) {
+        return memberMapper.findByKakaoId(kakaoId);
+    }
+
+    @Override
+    @Transactional
+    public Member joinByKakao(KakaoUserInfo kakaoUser) {
+        MemberCreateDto createDto = new MemberCreateDto();
+        createDto.setKakaoId(kakaoUser.getId());
+        createDto.setEmail(kakaoUser.getEmail());
+        createDto.setNickname(kakaoUser.getNickname());
+        createDto.setRole("CUSTOMER");
+
+        memberMapper.insert(createDto);
+        Member member = memberMapper.findByKakaoId(kakaoUser.getId());
+        return member;
     }
 }

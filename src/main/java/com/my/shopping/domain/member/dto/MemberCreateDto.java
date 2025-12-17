@@ -9,4 +9,7 @@ public class MemberCreateDto {
     private String nickname;
     private String password;
     private String role;
+    // 카카오 로그인 전용
+    private String kakaoId;
+    private String email;
 }

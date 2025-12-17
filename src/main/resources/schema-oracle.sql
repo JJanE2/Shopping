@@ -23,7 +23,10 @@ CREATE TABLE member (
     loginId VARCHAR2(15 CHAR),
     nickname VARCHAR2(15 CHAR),
     password VARCHAR2(60 CHAR),
-    role VARCHAR2(10 CHAR)
+    role VARCHAR2(10 CHAR),
+    kakaoId VARCHAR2(50),
+    email VARCHAR2(255),
+    CONSTRAINT uk_member_kakao UNIQUE (kakaoId)
 )
 /
 

@@ -1,12 +1,12 @@
 package com.my.shopping.domain.member;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 @Alias(value = "Member")
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
     private Long id;
     private String nickname;

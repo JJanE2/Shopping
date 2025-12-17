@@ -10,8 +10,8 @@
             SELECT member_seq.NEXTVAL FROM dual
         </selectKey>
 
-        INSERT INTO member (id, loginId, nickname, password, role)
-        VALUES (#{id}, #{loginId}, #{nickname}, #{password}, #{role})
+        INSERT INTO member (id, loginId, nickname, password, role, kakaoId, email)
+        VALUES (#{id}, #{loginId, jdbcType=VARCHAR}, #{nickname}, #{password, jdbcType=VARCHAR}, #{role}, #{kakaoId, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR})
     </insert>
 
     <select id="findById" resultType="Member">
@@ -40,4 +40,10 @@
         WHERE
             id = #{id}
     </delete>
+
+    <select id="findByKakaoId" resultType="Member">
+        SELECT * FROM MEMBER
+        WHERE
+            kakaoId = #{kakaoId}
+    </select>
 </mapper>

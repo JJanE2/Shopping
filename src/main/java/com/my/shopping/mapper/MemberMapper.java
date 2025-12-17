@@ -14,4 +14,5 @@ public interface MemberMapper {
     int update(MemberUpdateDto memberUpdateDto);
     int delete(Long id);
 
+    Member findByKakaoId(String kakoId);
 }

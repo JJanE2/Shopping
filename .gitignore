@@ -34,3 +34,5 @@ build/
 
 # BootstrapTest Html
 /src/main/resources/static/test/
+# Secret Key
+application-secret.yml

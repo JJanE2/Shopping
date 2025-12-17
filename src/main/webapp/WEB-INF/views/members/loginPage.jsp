@@ -10,7 +10,7 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <section class="container d-flex align-items-center w-75 min-vh-100">
     <main class="container border rounded shadow py-3">
-        <form id="member-login-form">
+        <form id="member-login-form" class="mb-0">
             <h2 class="text-center mb-3">Shopping</h2>
             <p class="text-center text-muted">로그인 페이지</p>
             <div class="form-floating mb-3">
@@ -25,6 +25,15 @@
             <div class="d-flex justify-content-center gap-3 mb-3">
                 <button type="submit" class="btn btn-primary">로그인</button>
                 <button type="button" class="btn btn-secondary" onclick="history.back()">돌아가기</button>
+            </div>
+            <hr>
+            <div class="text-center">
+                <a href="https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}&response_type=code">
+                    <img src="/resources/images/kakao_login_medium_wide.png"></img>
+                </a>
+                <p class="text-muted small mt-2 mb-0">
+                    ( 카카오 로그인 시 <strong>손님</strong>으로 가입됩니다 )
+                </p>
             </div>
         </form>
     </main>

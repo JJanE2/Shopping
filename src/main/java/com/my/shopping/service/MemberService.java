@@ -1,6 +1,7 @@
 package com.my.shopping.service;
 
 import com.my.shopping.domain.member.Member;
+import com.my.shopping.domain.member.dto.KakaoUserInfo;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.domain.member.dto.MemberLoginDto;
 import com.my.shopping.domain.member.dto.MemberUpdateDto;
@@ -15,4 +16,6 @@ public interface MemberService {
     Member login(MemberLoginDto memberLoginDto);
 
     Boolean isDuplicatedLoginId(String loginId);
+    Member findByKakaoId(String kakaoId);
+    Member joinByKakao(KakaoUserInfo kakaoUser);
 }
