@@ -20,10 +20,12 @@
             <div class="mb-3">
                 <label for="nickname" class="form-label">새 닉네임을 입력해주세요</label>
                 <input type="text" class="form-control" id="nickname" name="nickname" value="${member.nickname}" required>
+                <div id="nicknameError" class="error-msg text-danger fw-bold pt-1"></div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">새 비밀번호를 입력해주세요</label>
                 <input type="password" class="form-control" id="password" name="password" required>
+                <div id="passwordError" class="error-msg text-danger fw-bold pt-1"></div>
             </div>
 
             <div class="d-flex justify-content-center gap-3 mb-3">
@@ -37,7 +39,19 @@
 </section>
 
 <script>
-    document.getElementById("member-update-form").addEventListener("submit", function(event) {
+// valid 실패 시 각 속성에 에러 메세지 표시 함수
+function displayErrors(errors) {
+    document.querySelectorAll(".error-msg")
+        .forEach(el => el.innerText = "");
+    if (errors.nickname) {
+        document.getElementById("nicknameError").innerText = errors.nickname;
+    }
+    if (errors.password) {
+        document.getElementById("passwordError").innerText = errors.password;
+    }
+}
+
+    document.getElementById("member-update-form").addEventListener("submit", async function(event) {
         event.preventDefault();
 
         const memberId = Number(document.getElementById("memberId").value);
@@ -47,6 +61,25 @@
             nickname: document.getElementById("nickname").value,
             password: document.getElementById("password").value
         };
+
+        // valid 요청
+        const memberValidDto = {
+            loginId: document.getElementById("loginId").value,
+            nickname: document.getElementById("nickname").value,
+            password: document.getElementById("password").value
+        };
+        const validateResponse = await fetch("/api/members/validate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(memberValidDto)
+        });
+
+        // errors 값 존재시 error message 표시 및 폼 제출 방지
+        const errors = await validateResponse.json();
+        if (Object.keys(errors).length > 0) {
+            displayErrors(errors);   // 에러 표시
+            return;
+        }
 
         fetch(`/api/members/${memberId}`, {
             method: "POST",
