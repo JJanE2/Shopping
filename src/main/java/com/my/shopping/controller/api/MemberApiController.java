@@ -4,6 +4,7 @@ import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.MemberCreateDto;
 import com.my.shopping.domain.member.dto.MemberLoginDto;
 import com.my.shopping.domain.member.dto.MemberUpdateDto;
+import com.my.shopping.domain.member.dto.MemberValidDto;
 import com.my.shopping.service.KakaoService;
 import com.my.shopping.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,13 +25,17 @@ public class MemberApiController {
     @PostMapping("/members")
     public ResponseEntity<String> createMember(@RequestBody MemberCreateDto memberCreateDto) {
         Boolean isDuplicatedLoginId = memberService.isDuplicatedLoginId(memberCreateDto.getLoginId());
-
         if (!isDuplicatedLoginId) {
             memberService.insert(memberCreateDto);
             return ResponseEntity.ok("성공적으로 회원가입 되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복된 아이디입니다.");
         }
+    }
+
+    @PostMapping("/members/validate")
+    public Map<String, String> validateMember(@RequestBody MemberValidDto validDto) {
+        return memberService.validate(validDto);
     }
 
     @PostMapping("/login")

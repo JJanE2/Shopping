@@ -1,11 +1,9 @@
 package com.my.shopping.service;
 
 import com.my.shopping.domain.member.Member;
-import com.my.shopping.domain.member.dto.KakaoUserInfo;
-import com.my.shopping.domain.member.dto.MemberCreateDto;
-import com.my.shopping.domain.member.dto.MemberLoginDto;
-import com.my.shopping.domain.member.dto.MemberUpdateDto;
-import org.apache.ibatis.annotations.Param;
+import com.my.shopping.domain.member.dto.*;
+
+import java.util.Map;
 
 public interface MemberService {
     void insert(MemberCreateDto memberCreateDto);
@@ -18,4 +16,5 @@ public interface MemberService {
     Boolean isDuplicatedLoginId(String loginId);
     Member findByKakaoId(String kakaoId);
     Member joinByKakao(KakaoUserInfo kakaoUser);
+    Map<String, String> validate(MemberValidDto validDto);
 }
