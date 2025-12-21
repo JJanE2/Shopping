@@ -22,7 +22,7 @@ CREATE TABLE member (
     id NUMBER(19) PRIMARY KEY,
     loginId VARCHAR2(15 CHAR),
     nickname VARCHAR2(15 CHAR),
-    password VARCHAR2(60 CHAR),
+    password VARCHAR2(255 CHAR),
     role VARCHAR2(10 CHAR),
     kakaoId VARCHAR2(50),
     email VARCHAR2(255),

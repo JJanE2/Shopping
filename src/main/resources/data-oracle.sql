@@ -1,7 +1,7 @@
 
 -- Member data
 INSERT INTO member (id, loginId, nickname, password, role)
-VALUES (member_seq.NEXTVAL, 'q', 'test', 'q', 'OWNER')/
+VALUES (member_seq.NEXTVAL, 'q', 'test', '$2a$10$RP.04RMF9J29f3bhyKJxfeI1o49jN9RexdpntZInDAsayVxsOna4O', 'OWNER')/
 
 -- Product data
 INSERT INTO product (id, memberId, name, price, description, stockQuantity)

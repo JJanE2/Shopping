@@ -6,6 +6,7 @@ import com.my.shopping.domain.member.dto.*;
 import com.my.shopping.mapper.CartMapper;
 import com.my.shopping.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +20,13 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberMapper memberMapper;
     private final CartMapper cartMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public void insert(MemberCreateDto memberCreateDto) {
+        String encodedPwd = passwordEncoder.encode(memberCreateDto.getPassword());
+        memberCreateDto.setPassword(encodedPwd);
         memberMapper.insert(memberCreateDto);
         cartMapper.insertCart(new CartCreateDto(null, memberCreateDto.getId()));
     }
@@ -39,6 +43,8 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional
     public int update(MemberUpdateDto memberUpdateDto) {
+        String encodedPwd = passwordEncoder.encode(memberUpdateDto.getPassword());
+        memberUpdateDto.setPassword(encodedPwd);
         return memberMapper.update(memberUpdateDto);
     }
 
@@ -52,7 +58,7 @@ public class MemberServiceImpl implements MemberService{
     public Member login(MemberLoginDto memberLoginDto) {
         Member findMember = memberMapper.findByLoginId(memberLoginDto.getLoginId());
 
-        if (findMember != null && findMember.getPassword().equals(memberLoginDto.getPassword())) {
+        if (findMember != null && passwordEncoder.matches(memberLoginDto.getPassword(), findMember.getPassword())) {
             return findMember;
         }
         return null;
