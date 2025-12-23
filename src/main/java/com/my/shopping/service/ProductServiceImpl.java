@@ -3,6 +3,7 @@ package com.my.shopping.service;
 import com.my.shopping.domain.product.Product;
 import com.my.shopping.domain.product.dto.ProductCreateDto;
 import com.my.shopping.domain.product.dto.ProductUpdateDto;
+import com.my.shopping.exception.ProductNotFoundException;
 import com.my.shopping.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return productMapper.findById(id);
+        Product product = productMapper.findById(id);
+        if (product == null) {
+            throw new ProductNotFoundException("존재하지 않는 상품입니다.");
+        }
+        return product;
     }
 
     @Override

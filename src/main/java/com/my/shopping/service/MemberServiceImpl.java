@@ -3,6 +3,7 @@ package com.my.shopping.service;
 import com.my.shopping.domain.cart.dto.CartCreateDto;
 import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.*;
+import com.my.shopping.exception.MemberNotFoundException;
 import com.my.shopping.mapper.CartMapper;
 import com.my.shopping.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +34,11 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member findById(Long id) {
-
-
-
-
-        return memberMapper.findById(id);
+        Member member = memberMapper.findById(id);
+        if (member == null) {
+            throw new MemberNotFoundException("존재하지 않는 회원입니다.");
+        }
+        return member;
     }
 
     @Override

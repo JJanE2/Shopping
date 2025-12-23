@@ -7,6 +7,7 @@ import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
 import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.domain.orderProduct.dto.OrderProductCreateDto;
+import com.my.shopping.exception.OrderNotFoundException;
 import com.my.shopping.mapper.OrderMapper;
 import com.my.shopping.mapper.OrderProductMapper;
 import com.my.shopping.mapper.ProductMapper;
@@ -50,7 +51,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findById(Long id) {
-        return orderMapper.findById(id);
+        Order order = orderMapper.findById(id);
+        if (order == null) {
+            throw new OrderNotFoundException("존재하지 않는 주문입니다.");
+        }
+        return order;
     }
 
     @Override

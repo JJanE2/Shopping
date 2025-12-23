@@ -4,6 +4,7 @@ import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.domain.review.Review;
 import com.my.shopping.domain.review.dto.ReviewCreateDto;
 import com.my.shopping.domain.review.dto.ReviewUpdateDto;
+import com.my.shopping.exception.ReviewNotFoundException;
 import com.my.shopping.mapper.OrderMapper;
 import com.my.shopping.mapper.ProductMapper;
 import com.my.shopping.mapper.ReviewMapper;
@@ -31,7 +32,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review findById(Long id) {
-        return reviewMapper.findById(id);
+        Review review = reviewMapper.findById(id);
+        if (review == null) {
+            throw new ReviewNotFoundException("존재하지 않는 리뷰입니다.");
+        }
+        return review;
     }
 
     @Override
