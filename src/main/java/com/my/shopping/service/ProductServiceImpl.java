@@ -1,8 +1,11 @@
 package com.my.shopping.service;
 
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.product.Product;
 import com.my.shopping.domain.product.dto.ProductCreateDto;
 import com.my.shopping.domain.product.dto.ProductUpdateDto;
+import com.my.shopping.exception.CustomAccessDeniedException;
+import com.my.shopping.exception.LoginRequiredException;
 import com.my.shopping.exception.ProductNotFoundException;
 import com.my.shopping.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
@@ -58,5 +61,43 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll() {
         return productMapper.findAll();
+    }
+
+    @Override
+    public void validateOwnerAccess(Member loginMember) {
+        if (loginMember == null) {
+            throw new LoginRequiredException();
+        }
+        if (!loginMember.getRole().equals("OWNER")) {
+            throw new CustomAccessDeniedException("회원 유형이 사장님이 아닙니다.");
+        }
+    }
+
+    @Override
+    public void validateProductModifyAccess(Member loginMember, Long targetProductId) {
+        if (loginMember == null) {
+            throw new LoginRequiredException();
+        }
+        if (!loginMember.getRole().equals("OWNER")) {
+            throw new CustomAccessDeniedException("회원 유형이 사장님이 아닙니다.");
+        }
+        Product product = findById(targetProductId);
+        Long ownerId = product.getMemberId();
+        if (!loginMember.getId().equals(ownerId)) {
+            throw new CustomAccessDeniedException("본인만 상품을 수정할 수 있습니다.");
+        }
+    }
+
+    @Override
+    public void validateOwnerMyProductsAccess(Member loginMember, Long targetMemberId) {
+        if (loginMember == null) {
+            throw new LoginRequiredException();
+        }
+        if (!loginMember.getRole().equals("OWNER")) {
+            throw new CustomAccessDeniedException("회원 유형이 사장님이 아닙니다.");
+        }
+        if (!loginMember.getId().equals(targetMemberId)) {
+            throw new CustomAccessDeniedException("본인만 상품을 수정할 수 있습니다.");
+        }
     }
 }

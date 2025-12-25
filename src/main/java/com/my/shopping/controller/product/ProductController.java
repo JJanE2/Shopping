@@ -1,5 +1,6 @@
 package com.my.shopping.controller.product;
 
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.product.Product;
 import com.my.shopping.domain.review.Review;
 import com.my.shopping.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -20,8 +22,11 @@ public class ProductController {
     private final ReviewService reviewService;
 
     @GetMapping("/products/new")
-    public String getProductCreatePage(@SessionAttribute("memberId") Long memberId, Model model) {
-        model.addAttribute("memberId", memberId);
+    public String getProductCreatePage(@SessionAttribute(value = "member", required = false) Member member,
+                                       Model model) {
+        // 권한 확인 메서드 (상품 생성)
+        productService.validateOwnerAccess(member);
+        model.addAttribute("memberId", member.getId());
         return "/products/productCreatePage";
     }
 
@@ -35,14 +40,20 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}/edit")
-    public String getProductEditPage(@PathVariable(value = "id") Long id, Model model) {
+    public String getProductEditPage(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
+        // 권한 확인 메서드 (상품 수정)
+        Member loginMember = (Member) session.getAttribute("member");
+        productService.validateProductModifyAccess(loginMember, id);
         Product product = productService.findById(id);
         model.addAttribute("product", product);
         return "/products/productEditPage";
     }
 
     @GetMapping("/members/{memberId}/products")
-    public String getMyProductsPage(@PathVariable(value ="memberId") Long memberId, Model model) {
+    public String getMyProductsPage(@PathVariable(value = "memberId") Long memberId, Model model, HttpSession session) {
+        // 권한 확인 메서드 (내 상품 목록)
+        Member loginMember = (Member) session.getAttribute("member");
+        productService.validateOwnerMyProductsAccess(loginMember, memberId);
         List<Product> products = productService.findByMemberId(memberId);
         model.addAttribute("products", products);
         return "/products/myProducts";
