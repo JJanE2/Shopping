@@ -42,15 +42,19 @@ public class MemberController {
     }
 
     @GetMapping("/members/{id}")
-    public String getMemberDetailsPage(@PathVariable(value = "id") Long id, Model model) {
+    public String getMemberDetailsPage(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
         Member member = memberService.findById(id);
+        Long loginMemberId = (Long) session.getAttribute("memberId");
+        memberService.validateMemberAccess(loginMemberId, id);
         model.addAttribute("member", member);
         return "/members/memberDetailsPage";
     }
 
     @GetMapping("/members/{id}/edit")
-    public String getMemberEditPage(@PathVariable(value = "id") Long id, Model model) {
+    public String getMemberEditPage(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
         Member member = memberService.findById(id);
+        Long loginMemberId = (Long) session.getAttribute("memberId");
+        memberService.validateMemberAccess(loginMemberId, id);
         model.addAttribute("member", member);
         return "/members/memberEditPage";
     }

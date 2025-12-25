@@ -17,4 +17,5 @@ public interface MemberService {
     Member findByKakaoId(String kakaoId);
     Member joinByKakao(KakaoUserInfo kakaoUser);
     Map<String, String> validate(MemberValidDto validDto);
+    void validateMemberAccess(Long loginMemberId, Long targetMemberId);
 }

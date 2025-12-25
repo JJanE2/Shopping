@@ -3,6 +3,8 @@ package com.my.shopping.service;
 import com.my.shopping.domain.cart.dto.CartCreateDto;
 import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.member.dto.*;
+import com.my.shopping.exception.CustomAccessDeniedException;
+import com.my.shopping.exception.LoginRequiredException;
 import com.my.shopping.exception.MemberNotFoundException;
 import com.my.shopping.mapper.CartMapper;
 import com.my.shopping.mapper.MemberMapper;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,5 +123,15 @@ public class MemberServiceImpl implements MemberService{
             );
         }
         return errors;
+    }
+
+    @Override
+    public void validateMemberAccess(Long loginMemberId, Long targetMemberId) {
+        if (loginMemberId == null) {
+            throw new LoginRequiredException();
+        }
+        if (!loginMemberId.equals(targetMemberId)) {
+            throw new CustomAccessDeniedException("Access forbidden");
+        }
     }
 }

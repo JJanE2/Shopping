@@ -25,6 +25,17 @@ public class GlobalExceptionHandler {
         return "error/400";
     }
 
+    @ExceptionHandler(LoginRequiredException.class)
+    public String handleLoginRequired() {
+        return "redirect:/login";
+    }
+
+    @ExceptionHandler(CustomAccessDeniedException.class)
+    public String handleAccessDenied(Exception e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "error/403";
+    }
+
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e) {
         return "error/500";
