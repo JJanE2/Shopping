@@ -123,4 +123,20 @@
         WHERE
             id = #{orderProductId}
     </update>
+
+    <select id="isOwnerOfOrder" resultType="int">
+        SELECT CASE
+            WHEN
+                COUNT(*) > 0 THEN 1
+            ELSE
+                0
+            END
+        FROM
+            orderProduct op
+        JOIN
+            product p ON op.productId = p.id
+        WHERE
+            op.orderId = #{orderId}
+            AND p.memberId = #{ownerId}
+    </select>
 </mapper>

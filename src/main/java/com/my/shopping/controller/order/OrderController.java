@@ -1,9 +1,9 @@
 package com.my.shopping.controller.order;
 
 import com.my.shopping.domain.cart.Cart;
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
-import com.my.shopping.domain.order.dto.OrderRequestDto;
 import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.service.CartService;
 import com.my.shopping.service.OrderProductService;
@@ -51,7 +51,12 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    public String getOrderDetailsPage(@PathVariable(value = "id") Long id, Model model) {
+    public String getOrderDetailsPage(@PathVariable(value = "id") Long id, Model model,
+                                      HttpSession session) {
+        // 본인 확인 메서드 (주문 상세)
+        Member loginMember = (Member) session.getAttribute("member");
+        orderService.validateOrderAccess(loginMember, id);
+
         Order order = orderService.findById(id);
         List<OrderProduct> products = orderProductService.findByOrderId(id);
         model.addAttribute("order", order);
@@ -59,15 +64,12 @@ public class OrderController {
         return "/orders/orderDetailsPage";
     }
 
-    @GetMapping("/orders/{id}/edit")
-    public String getOrderEditPage(@PathVariable(value = "id") Long id, Model model) {
-        Order order = orderService.findById(id);
-        model.addAttribute("order", order);
-        return "/orders/orderEditPage";
-    }
-
     @GetMapping("/members/{memberId}/orders")
-    public String getMyOrdersPage(@PathVariable(value ="memberId") Long memberId, Model model) {
+    public String getMyOrdersPage(@PathVariable(value = "memberId") Long memberId, Model model,
+                                  HttpSession session) {
+        // 본인 확인 메서드 (내 주문 목록)
+        Member loginMember = (Member) session.getAttribute("member");
+        orderService.validateMemberMyOrdersAccess(loginMember, memberId);
         List<Order> orders = orderService.findByMemberId(memberId);
         model.addAttribute("orders", orders);
         return "/orders/myOrders";
@@ -76,6 +78,8 @@ public class OrderController {
     @GetMapping("/owner/orders")
     public String getOrderManagementPage(Model model, HttpSession session) {
         Long ownerId = (Long) session.getAttribute("memberId");
+        // 권한 확인 메서드 (OWNER 주문 목록)
+        orderService.validateOwnerRole(ownerId);
         List<Order> orders = orderService.findByOwnerId(ownerId);
         model.addAttribute("orders", orders);
         return "/orders/ownerOrderManagePage";

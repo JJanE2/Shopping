@@ -2,11 +2,14 @@ package com.my.shopping.service;
 
 import com.my.shopping.domain.cart.Cart;
 import com.my.shopping.domain.cart.CartItem;
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.order.Order;
 import com.my.shopping.domain.order.dto.OrderCreateDto;
 import com.my.shopping.domain.order.dto.OrderUpdateDto;
 import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.domain.orderProduct.dto.OrderProductCreateDto;
+import com.my.shopping.exception.CustomAccessDeniedException;
+import com.my.shopping.exception.LoginRequiredException;
 import com.my.shopping.exception.OrderNotFoundException;
 import com.my.shopping.mapper.OrderMapper;
 import com.my.shopping.mapper.OrderProductMapper;
@@ -25,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final ProductMapper productMapper;
     private final OrderProductMapper orderProductMapper;
+    private final MemberService memberService;
 
     @Override
     @Transactional
@@ -171,5 +175,46 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void markReviewAsWritten(Long orderProductId) {
         orderMapper.setHasWrittenReview(orderProductId);
+    }
+
+    @Override
+    public void validateOrderAccess(Member loginMember, Long targetOrderId) {
+        if (loginMember == null) {
+            throw new LoginRequiredException();
+        }
+        Order order = findById(targetOrderId);
+        // CUSTOMER 면 본인만 조회가능
+        if (loginMember.getRole().equals("CUSTOMER")) {
+            if (!loginMember.getId().equals(order.getMemberId())) {
+                throw new CustomAccessDeniedException("본인만 접근할 수 있습니다.");
+            }
+        // OWNER 면 본인상품에 대한 주문만 조회가능
+        } else if (loginMember.getRole().equals("OWNER")) {
+            boolean ownerOfOrder = orderMapper.isOwnerOfOrder(targetOrderId, loginMember.getId()) == 1;
+            if (!ownerOfOrder) {
+                throw new CustomAccessDeniedException("해당 주문에 조회 할 권한이 없습니다.");
+            }
+        }
+    }
+
+    @Override
+    public void validateMemberMyOrdersAccess(Member loginMember, Long targetMemberId) {
+        if (loginMember == null) {
+            throw new LoginRequiredException();
+        }
+        if (!loginMember.getId().equals(targetMemberId)) {
+            throw new CustomAccessDeniedException("본인만 접근할 수 있습니다.");
+        }
+    }
+
+    @Override
+    public void validateOwnerRole(Long ownerId) {
+        if (ownerId == null) {
+            throw new LoginRequiredException();
+        }
+        String role = memberService.findById(ownerId).getRole();
+        if (!role.equals("OWNER")) {
+            throw new CustomAccessDeniedException("회원 유형이 사장님이 아닙니다.");
+        }
     }
 }

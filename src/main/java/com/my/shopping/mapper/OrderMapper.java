@@ -23,4 +23,6 @@ public interface OrderMapper {
 
     OrderProduct findByOrderProductId(Long id);
     void setHasWrittenReview(@Param("orderProductId") Long orderProductId);
+
+    int isOwnerOfOrder(@Param("orderId") Long orderId, @Param("ownerId") Long ownerId);
 }
