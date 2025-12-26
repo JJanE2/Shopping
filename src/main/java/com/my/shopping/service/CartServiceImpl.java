@@ -5,6 +5,7 @@ import com.my.shopping.domain.cart.dto.CartCreateDto;
 import com.my.shopping.domain.cart.dto.CartItemCreateDto;
 import com.my.shopping.domain.cart.dto.CartItemDeleteDto;
 import com.my.shopping.domain.cart.dto.CartItemUpdateDto;
+import com.my.shopping.exception.LoginRequiredException;
 import com.my.shopping.mapper.CartMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findByMemberId(Long memberId) {
+        if (memberId == null) {
+            throw new LoginRequiredException();
+        }
         return cartMapper.findByMemberId(memberId);
     }
 
