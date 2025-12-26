@@ -12,7 +12,8 @@ public class GlobalExceptionHandler {
             MemberNotFoundException.class,
             ProductNotFoundException.class,
             OrderNotFoundException.class,
-            ReviewNotFoundException.class
+            ReviewNotFoundException.class,
+            OrderProductNotFoundException.class
     })
     public String handleNotFoundException(Exception e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());

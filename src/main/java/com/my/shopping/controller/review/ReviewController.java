@@ -1,7 +1,9 @@
 package com.my.shopping.controller.review;
 
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.domain.review.Review;
+import com.my.shopping.exception.LoginRequiredException;
 import com.my.shopping.service.OrderService;
 import com.my.shopping.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,10 @@ public class ReviewController {
     @GetMapping("/reviews/new")
     public String getReviewCreatePage(@RequestParam("orderProductId") Long orderProductId, Model model,
                                       HttpSession session){
-        Long memberId = (Long) session.getAttribute("memberId ");
+        Long memberId = (Long) session.getAttribute("memberId");
+        if (memberId == null) {
+            throw new LoginRequiredException();
+        }
         OrderProduct orderProduct = orderService.findByOrderProductId(orderProductId);
         Long productId = orderProduct.getProductId();
 
@@ -33,8 +38,12 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{id}/edit")
-    public String getReviewEditPage(@PathVariable(value = "id") Long id, Model model) {
+    public String getReviewEditPage(@PathVariable(value = "id") Long id, Model model,
+                                    HttpSession session) {
         Review review = reviewService.findById(id);
+        // 본인 확인 메서드 (리뷰 수정)
+        Member loginMember = (Member) session.getAttribute("member");
+        reviewService.validateReviewMember(loginMember, review.getMemberId());
         model.addAttribute("review", review);
         return "/reviews/reviewEditPage";
     }

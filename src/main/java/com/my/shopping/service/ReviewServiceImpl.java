@@ -1,9 +1,12 @@
 package com.my.shopping.service;
 
+import com.my.shopping.domain.member.Member;
 import com.my.shopping.domain.orderProduct.OrderProduct;
 import com.my.shopping.domain.review.Review;
 import com.my.shopping.domain.review.dto.ReviewCreateDto;
 import com.my.shopping.domain.review.dto.ReviewUpdateDto;
+import com.my.shopping.exception.CustomAccessDeniedException;
+import com.my.shopping.exception.LoginRequiredException;
 import com.my.shopping.exception.ReviewNotFoundException;
 import com.my.shopping.mapper.OrderMapper;
 import com.my.shopping.mapper.ProductMapper;
@@ -59,5 +62,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public int delete(Long id) {
         return reviewMapper.delete(id);
+    }
+
+    @Override
+    public void validateReviewMember(Member loginMember, Long targetMemberId) {
+        if (loginMember == null) {
+            throw new LoginRequiredException();
+        }
+        if (!loginMember.getId().equals(targetMemberId)) {
+            throw new CustomAccessDeniedException("본인만 접근할 수 있습니다.");
+        }
     }
 }
