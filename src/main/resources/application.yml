@@ -10,7 +10,7 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521:xe
     driver-class-name: oracle.jdbc.OracleDriver
     username: system
-    password: qwer
+    password: q
     hikari:
       ## Hikaripool 연결 시 session time_zone 설정
       connection-init-sql: ALTER SESSION SET TIME_ZONE = '+09:00'
