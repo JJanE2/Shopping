@@ -20,11 +20,6 @@
     <a class="navbar-brand" href="/">Shopping</a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">인기상품</a>
-          </li>
-        </ul>
         <ul class="navbar-nav ms-auto gap-3">
         <c:choose>
             <c:when test="${not empty sessionScope.member}">
